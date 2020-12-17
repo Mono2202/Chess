@@ -1,9 +1,11 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
 #include "BoardPosition.h"
 #include "ChessBoard.h"
+#include "MoveCodes.h"
 
 using std::string;
 
@@ -22,10 +24,11 @@ public:
 	char getPieceType() const;
 
 	// Pure Virtual Functions:
-	virtual string move(string directions) = 0;
+	virtual string move(string directions, std::vector<ChessPiece*> board) = 0;
 	
 protected:
 	// Protected Methods:
+	string generalMoveCheck(string srcPos, string destPost, std::vector<ChessPiece*> board);
 	void updateBoard(ChessBoard board, string directions);
 
 private:
