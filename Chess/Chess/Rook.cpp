@@ -19,8 +19,8 @@ string Rook::move(string directions, std::vector<ChessPiece*> board)
 	// Inits:
 	string srcPos = directions.substr(0, 2);  // TODO: #define
 	string destPos = directions.substr(2, 2);
-	int srcIndex = srcPos[0] - 'a' + (BOARD_SIZE - srcPos[1]) * BOARD_SIZE;
-	int destIndex = destPos[0] - 'a' + (BOARD_SIZE - destPos[1]) * BOARD_SIZE;
+	int srcIndex = srcPos[0] - 'a' + (BOARD_SIZE - (srcPos[1] - '0')) * BOARD_SIZE;
+	int destIndex = destPos[0] - 'a' + (BOARD_SIZE - (destPos[1] - '0')) * BOARD_SIZE;
 	int difference = 0;
 	string returnCode = "";
 	bool collisionFound = false;
@@ -34,7 +34,7 @@ string Rook::move(string directions, std::vector<ChessPiece*> board)
 	{
 		// Condition: move isn't horizontal and isn't vertical
 		if (srcPos[0] != destPos[0] && srcPos[1] != destPos[1])
-			returnCode = MoveCodes::ToString(MoveCodes::ERROR_INVALID_MOVE);
+			returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
 		
 		// Condition: vertical move
 		if (srcPos[0] == destPos[0])
@@ -50,7 +50,7 @@ string Rook::move(string directions, std::vector<ChessPiece*> board)
 			// Condition: collision detected (Move Code: 6)
 			if (!board[i])
 			{
-				returnCode = MoveCodes::ToString(MoveCodes::ERROR_INVALID_MOVE);
+				returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
 				collisionFound = true;
 			}
 		}
