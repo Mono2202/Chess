@@ -139,11 +139,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BoardPosition.h" />
+    <ClInclude Include="ChessBoard.h" />
+    <ClInclude Include="ChessPiece.h" />
+    <ClInclude Include="MoveCodes.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="Rook.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoardPosition.cpp" />
+    <ClCompile Include="ChessBoard.cpp" />
+    <ClCompile Include="ChessPiece.cpp" />
+    <ClCompile Include="MoveCodes.cpp" />
+    <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

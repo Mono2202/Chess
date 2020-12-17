@@ -12,5 +12,5 @@ public:
 	~Rook();
 
 	// Virtual Functions:
-	virtual string move(string directions);
+	virtual string move(string directions, std::vector<ChessPiece*> board);
 };
