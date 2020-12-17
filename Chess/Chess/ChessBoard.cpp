@@ -1,4 +1,5 @@
 #include "ChessBoard.h"
+#include "Rook.h"
 
 /* ChessBoard Class */
 
@@ -106,11 +107,11 @@ void ChessBoard::addPiece(char pieceType, int position)
 	// Creating the proper chess piece:
 	switch (toupper(pieceType))
 	{
-		case 'P': this->_board.push_back(new Pawn(pieceType, position)); break;
-		case 'N': this->_board.push_back(new Knight(pieceType, position)); break;
-		case 'B': this->_board.push_back(new Bishop(pieceType, position)); break;
+		//case 'P': this->_board.push_back(new Pawn(pieceType, position)); break;
+		//case 'N': this->_board.push_back(new Knight(pieceType, position)); break;
+		//case 'B': this->_board.push_back(new Bishop(pieceType, position)); break;
 		case 'R': this->_board.push_back(new Rook(pieceType, position)); break;
-		case 'Q': this->_board.push_back(new Queen(pieceType, position)); break;
-		case 'K': this->_board.push_back(new King(pieceType, position)); break;
+		//case 'Q': this->_board.push_back(new Queen(pieceType, position)); break;
+		//case 'K': this->_board.push_back(new King(pieceType, position)); break;
 	}
 }

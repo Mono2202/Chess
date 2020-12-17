@@ -5,7 +5,6 @@
 
 #include "BoardPosition.h"
 #include "ChessPiece.h"
-#include "Rook.h"
 
 using std::string;
 
