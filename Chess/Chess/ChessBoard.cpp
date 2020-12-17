@@ -15,7 +15,7 @@ ChessBoard::ChessBoard(string startingBoard)
 		// Condition: chess piece to create
 		if (startingBoard[i] != '#')
 		{
-			this->addPiece(startingBoard[i]);
+			this->addPiece(startingBoard[i], i);
 		}
 
 		// Condition: empty spot
@@ -101,16 +101,16 @@ string ChessBoard::toString() const
 
 // Helper Methods:
 
-void ChessBoard::addPiece(char pieceType)
+void ChessBoard::addPiece(char pieceType, int position)
 {
 	// Creating the proper chess piece:
 	switch (toupper(pieceType))
 	{
-		case 'P': this->_board.push_back(new Pawn(pieceType)); break;
-		case 'N': this->_board.push_back(new Knight(pieceType)); break;
-		case 'B': this->_board.push_back(new Bishop(pieceType)); break;
-		case 'R': this->_board.push_back(new Rook(pieceType)); break;
-		case 'Q': this->_board.push_back(new Queen(pieceType)); break;
-		case 'K': this->_board.push_back(new King(pieceType)); break;
+		case 'P': this->_board.push_back(new Pawn(pieceType, position)); break;
+		case 'N': this->_board.push_back(new Knight(pieceType, position)); break;
+		case 'B': this->_board.push_back(new Bishop(pieceType, position)); break;
+		case 'R': this->_board.push_back(new Rook(pieceType, position)); break;
+		case 'Q': this->_board.push_back(new Queen(pieceType, position)); break;
+		case 'K': this->_board.push_back(new King(pieceType, position)); break;
 	}
 }

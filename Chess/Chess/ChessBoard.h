@@ -5,6 +5,7 @@
 
 #include "BoardPosition.h"
 #include "ChessPiece.h"
+#include "Rook.h"
 
 using std::string;
 
@@ -38,5 +39,5 @@ private:
 	std::vector<ChessPiece*> _board;
 
 	// Helper Methods:
-	void addPiece(char pieceType);
+	void addPiece(char pieceType, int position);
 };
