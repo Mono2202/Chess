@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #include "BoardPosition.h"
 #include "ChessBoard.h"
