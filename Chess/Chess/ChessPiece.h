@@ -30,7 +30,6 @@ public:
 protected:
 	// Protected Methods:
 	string generalMoveCheck(string srcPos, string destPost, std::vector<ChessPiece*> board, bool isWhite);
-	void updateBoard(ChessBoard board, string directions);
 
 private:
 	// Fields:
