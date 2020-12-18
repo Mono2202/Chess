@@ -134,6 +134,31 @@ void ChessBoard::updateBoard(string directions)
 }
 
 
+// Static Functions:
+
+int ChessBoard::getKingPosition(std::vector<ChessPiece*> board, bool isWhite)
+{
+	// Inits:
+	int kingPosition = 0;
+	char kingToFind = (isWhite) ? 'K' : 'k';
+	bool found = false;
+	int i = 0;
+
+	// Finds the wanted king's position:
+	for (i = 0; i < board.size() && !found; i++)
+	{
+		// Condition: position found
+		if (board[i] != NULL && board[i]->getPieceType() == kingToFind)
+		{
+			kingPosition = i;
+			found = true;
+		}
+	}
+
+	return kingPosition;
+}
+
+
 // Helper Methods:
 
 void ChessBoard::addPiece(char pieceType, int position)

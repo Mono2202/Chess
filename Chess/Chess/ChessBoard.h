@@ -34,6 +34,9 @@ public:
 	string toString() const;
 	void printBoard();
 	void updateBoard(string directions);
+	
+	// Static Functions:
+	static int getKingPosition(std::vector<ChessPiece*> board, bool isWhite); // TODO: reference
 
 private:
 	// Fields:
