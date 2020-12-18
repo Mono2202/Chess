@@ -46,7 +46,7 @@ string ChessPiece::generalMoveCheck(string srcPos, string destPos, std::vector<C
 
 	// Condition: no friendly piece in srcPos (Move Code: 2)
 	else if (board[srcIndex] == NULL ||
-			 isWhite != islower(board[srcIndex]->getPieceType()) ||
+			 isWhite != isupper(board[srcIndex]->getPieceType()) ||
 			 islower(this->getPieceType()) != islower(board[srcIndex]->getPieceType()))
 		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_NO_FRIENDLY_PIECE_IN_SRC);
 

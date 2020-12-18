@@ -45,10 +45,10 @@ string Rook::move(string directions, std::vector<ChessPiece*> board, bool isWhit
 			difference = (srcIndex < destIndex) ? 1 : -1; // TODO: #define
 
 		// Checking for collisions:
-		for (i = srcIndex + difference; i < destIndex && !collisionFound; i += difference)
+		for (i = srcIndex + difference; i != destIndex && !collisionFound; i += difference)
 		{
 			// Condition: collision detected (Move Code: 6)
-			if (!board[i])
+			if (board[i] != NULL)
 			{
 				returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
 				collisionFound = true;
