@@ -30,12 +30,10 @@ public:
 protected:
 	// Protected Methods:
 	string generalMoveCheck(string srcPos, string destPost, std::vector<ChessPiece*> board, bool isWhite);
+	bool isChecked(int srcIndex, int destIndex, std::vector<ChessPiece*> board, bool isWhite);
 
 private:
 	// Fields:
 	char _pieceType;
 	int _position;
-
-	// Helper Methods:
-	bool isChecked(int srcIndex, int destIndex, std::vector<ChessPiece*> board, bool isWhite);
 };

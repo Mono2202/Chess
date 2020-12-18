@@ -63,8 +63,6 @@ string ChessPiece::generalMoveCheck(string srcPos, string destPos, std::vector<C
 }
 
 
-// Helper Methods:
-
 bool ChessPiece::isChecked(int srcIndex, int destIndex, std::vector<ChessPiece*> board, bool isWhite) // TODO: optimize? && ADD PAWN CHECK && split to functions
 {
 	// Inits:
