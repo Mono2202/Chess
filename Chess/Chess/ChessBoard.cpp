@@ -99,6 +99,30 @@ string ChessBoard::toString() const
 	return boardString;
 }
 
+void ChessBoard::printBoard()
+{
+	// Inits:
+	int i = 0, j = 0;
+
+	// Printing the board as a 2D-array:
+	for (i = 0; i < BOARD_SIZE; i++)
+	{
+		for (j = 0; j < BOARD_SIZE; j++)
+		{
+			// Condition: chess piece
+			if (this->_board[i * BOARD_SIZE + j] != NULL)
+				std::cout << this->_board[i * BOARD_SIZE + j]->getPieceType() << " ";
+
+			// Condition: empty spot
+			else
+				std::cout << "# ";
+		}
+
+		// New line:
+		std::cout << std::endl;
+	}
+}
+
 void ChessBoard::updateBoard(string directions)
 {
 	// Inits:

@@ -32,6 +32,7 @@ public:
 	
 	// Methods:
 	string toString() const;
+	void printBoard();
 	void updateBoard(string directions);
 
 private:
