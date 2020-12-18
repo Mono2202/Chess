@@ -29,9 +29,12 @@ string King::move(string directions, std::vector<ChessPiece*> board, bool isWhit
 	// Checking general move validity: 
 	returnCode = generalMoveCheck(srcPos, destPos, board, isWhite);
 
-	// Condition: invalid King move (Move Code: 6)
-	if (abs(srcIndex % BOARD_SIZE - destIndex % BOARD_SIZE) > 1 || abs(srcIndex / BOARD_SIZE - destIndex / BOARD_SIZE) > 1)
-		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
+	// Condition: specific King moves need to be checked
+	if (returnCode == "0")
+
+		// Condition: invalid King move (Move Code: 6)
+		if (abs(srcIndex % BOARD_SIZE - destIndex % BOARD_SIZE) > 1 || abs(srcIndex / BOARD_SIZE - destIndex / BOARD_SIZE) > 1)
+			returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
 	
 	// Condition: move made check on enemy King (Move Code: 1)
 	if (returnCode == "0" && this->isChecked(srcIndex, destIndex, board, !isWhite))

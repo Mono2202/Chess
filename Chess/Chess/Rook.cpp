@@ -30,7 +30,7 @@ string Rook::move(string directions, std::vector<ChessPiece*> board, bool isWhit
 	returnCode = generalMoveCheck(srcPos, destPos, board, isWhite);
 
 	// Condition: specific Rook moves need to be checked
-	if (!returnCode.compare("0"))
+	if (returnCode == "0")
 	{
 		// Condition: move isn't horizontal and isn't vertical
 		if (srcPos[0] != destPos[0] && srcPos[1] != destPos[1])
