@@ -25,7 +25,7 @@ public:
 	char getPieceType() const;
 
 	// Pure Virtual Functions:
-	virtual string move(string directions, std::vector<ChessPiece*> board, bool isWhite) = 0;
+	virtual string move(string directions, std::vector<ChessPiece*> board, bool isWhite) = 0; // TODO: maybe refrence vector?
 	
 protected:
 	// Protected Methods:
@@ -35,4 +35,7 @@ private:
 	// Fields:
 	char _pieceType;
 	int _position;
+
+	// Helper Methods:
+	bool isChecked(int srcIndex, int destIndex, std::vector<ChessPiece*> board, bool isWhite);
 };

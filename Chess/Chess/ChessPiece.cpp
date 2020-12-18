@@ -56,10 +56,145 @@ string ChessPiece::generalMoveCheck(string srcPos, string destPos, std::vector<C
 		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_FRIENDLY_PIECE_IN_DEST);
 
 	// Condition: move will lead to check on the friendly King (Move Code: 4)
-	else if (false)
-	{
-		// TODO: check check lol ;)
-	}
+	else if (isChecked(srcIndex, destIndex, board, isWhite))
+		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_FRIENDLY_CHECK);  // TODO: MOVE AFTER SPECIFIC MOVES CHECK
 
 	return returnCode;
+}
+
+
+// Helper Methods:
+
+bool ChessPiece::isChecked(int srcIndex, int destIndex, std::vector<ChessPiece*> board, bool isWhite) // TODO: optimize? && ADD PAWN CHECK && split to functions
+{
+	// Inits:
+	string possibleEnemyPieces = (isWhite) ? "qrbnp" : "QRBNP"; // TODO: #define indexes
+	int kingPosition = ChessBoard::getKingPosition(board, isWhite);
+	bool friendlyPieceFound = false;
+	int i = 0;
+
+	// Updating the board:
+	board[destIndex] = board[srcIndex];
+	board[srcIndex] = NULL;
+
+	// Checking right to the King:
+	for (i = kingPosition + 1; i / BOARD_SIZE == kingPosition / BOARD_SIZE && !friendlyPieceFound; i++)
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[1])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking left to the King:
+	for (i = kingPosition - 1; i / BOARD_SIZE == kingPosition / BOARD_SIZE && !friendlyPieceFound; i--)
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[1])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking down to the King:
+	for (i = kingPosition + BOARD_SIZE; i < BOARD_SIZE * BOARD_SIZE && !friendlyPieceFound; i += BOARD_SIZE)
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[1])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking up to the King:
+	for (i = kingPosition - BOARD_SIZE; i >= 0 && !friendlyPieceFound; i -= BOARD_SIZE)
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[1])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking main diagonal (right) to the King:
+	for (i = kingPosition + (BOARD_SIZE + 1); ((i - (BOARD_SIZE + 1)) % BOARD_SIZE != BOARD_SIZE - 1) && (i < BOARD_SIZE * BOARD_SIZE) && !friendlyPieceFound; i += (BOARD_SIZE + 1))
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[2])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking main diagonal (left) to the King:
+	for (i = kingPosition - (BOARD_SIZE + 1);  ((i + (BOARD_SIZE + 1)) % BOARD_SIZE != 0) && (i >= 0) && !friendlyPieceFound; i -= (BOARD_SIZE + 1))
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[2])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking secondary diagonal (right) to the King:
+	for (i = kingPosition - (BOARD_SIZE - 1); ((i + (BOARD_SIZE - 1)) % BOARD_SIZE != BOARD_SIZE - 1) && (i >= 0) && !friendlyPieceFound; i -= (BOARD_SIZE - 1))
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[2])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	// Resetting the flag:
+	friendlyPieceFound = false;
+
+	// Checking secondary diagonal (left) to the King:
+	for (i = kingPosition + (BOARD_SIZE - 1); ((i - (BOARD_SIZE - 1)) % BOARD_SIZE != 0) && (i < BOARD_SIZE * BOARD_SIZE) && !friendlyPieceFound; i += (BOARD_SIZE - 1))
+	{
+		// Condition: enemy piece found in King's path
+		if (board[i] != NULL && board[i]->getPieceType() == possibleEnemyPieces[0] || board[i]->getPieceType() == possibleEnemyPieces[2])
+			return true;
+		
+		// Condition: friendly piece found in King's path
+		else if (board[i] != NULL && islower(board[i]->getPieceType()) != isWhite)
+			friendlyPieceFound = true;
+	}
+
+	return false;
+
+	// TODO: KNIGHT AND PAWN CHECK CHECK
 }
