@@ -59,13 +59,13 @@ std::vector<ChessPiece*> ChessBoard::getBoard() const
 
 // Setters:
 
-void ChessBoard::setBoard(BoardPosition src, BoardPosition dest)
+void ChessBoard::setBoard(int srcIndex, int destIndex)
 {
 	// Switching both positions:
-	this->_board[dest.getRow() * BOARD_SIZE + dest.getColumn()] = this->_board[src.getRow() * BOARD_SIZE + src.getColumn()];
+	this->_board[destIndex] = this->_board[srcIndex];
 	
 	// Emptying the source position:
-	this->_board[src.getRow() * BOARD_SIZE + src.getRow()] = NULL;
+	this->_board[srcIndex] = NULL;
 }
 
 
@@ -97,6 +97,16 @@ string ChessBoard::toString() const
 	boardString += STARTING_PLAYER;
 
 	return boardString;
+}
+
+void ChessBoard::updateBoard(string directions)
+{
+	// Inits:
+	int srcIndex = directions[0] - 'a' + (BOARD_SIZE - (directions[1] - '0')) * BOARD_SIZE;  // TODO: #define
+	int destIndex = directions[2] - 'a' + (BOARD_SIZE - (directions[3] - '0')) * BOARD_SIZE;
+
+	// Updating the board:
+	this->setBoard(srcIndex, destIndex);
 }
 
 

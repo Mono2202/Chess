@@ -28,10 +28,11 @@ public:
 	std::vector<ChessPiece*> getBoard() const;
 
 	// Setters:
-	void setBoard(BoardPosition src, BoardPosition dest);
+	void setBoard(int srcIndex, int destIndex);
 	
 	// Methods:
 	string toString() const;
+	void updateBoard(string directions);
 
 private:
 	// Fields:
