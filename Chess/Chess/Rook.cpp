@@ -14,7 +14,7 @@ Rook::~Rook() { }
 
 // Virtual Functions:
 
-string Rook::move(string directions, std::vector<ChessPiece*> board)
+string Rook::move(string directions, std::vector<ChessPiece*> board, bool isWhite)
 {
 	// Inits:
 	string srcPos = directions.substr(0, 2);  // TODO: #define
@@ -27,7 +27,7 @@ string Rook::move(string directions, std::vector<ChessPiece*> board)
 	int i = 0;
 	
 	// Checking general move validity: 
-	returnCode = generalMoveCheck(srcPos, destPos, board);
+	returnCode = generalMoveCheck(srcPos, destPos, board, isWhite);
 
 	// Condition: specific Rook moves need to be checked
 	if (!returnCode.compare("0"))

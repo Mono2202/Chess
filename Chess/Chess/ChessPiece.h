@@ -25,11 +25,11 @@ public:
 	char getPieceType() const;
 
 	// Pure Virtual Functions:
-	virtual string move(string directions, std::vector<ChessPiece*> board) = 0;
+	virtual string move(string directions, std::vector<ChessPiece*> board, bool isWhite) = 0;
 	
 protected:
 	// Protected Methods:
-	string generalMoveCheck(string srcPos, string destPost, std::vector<ChessPiece*> board);
+	string generalMoveCheck(string srcPos, string destPost, std::vector<ChessPiece*> board, bool isWhite);
 	void updateBoard(ChessBoard board, string directions);
 
 private:
