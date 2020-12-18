@@ -1,5 +1,6 @@
 #include "ChessBoard.h"
 #include "Rook.h"
+#include "King.h"
 
 /* ChessBoard Class */
 
@@ -61,6 +62,10 @@ std::vector<ChessPiece*> ChessBoard::getBoard() const
 
 void ChessBoard::setBoard(int srcIndex, int destIndex)
 {
+	// Condition: deleting the chess piece
+	if (this->_board[destIndex] != NULL)
+		delete this->_board[destIndex];
+
 	// Switching both positions:
 	this->_board[destIndex] = this->_board[srcIndex];
 	
@@ -78,7 +83,7 @@ string ChessBoard::toString() const
 	int i = 0;
 
 	// Building the board string:
-	for (i = 0; i < this->_board.size(); i++)
+	for (i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
 	{
 		// Condition: chess piece
 		if (this->_board[i] != NULL)
@@ -145,7 +150,7 @@ int ChessBoard::getKingPosition(std::vector<ChessPiece*> board, bool isWhite)
 	int i = 0;
 
 	// Finds the wanted king's position:
-	for (i = 0; i < board.size() && !found; i++)
+	for (i = 0; i < BOARD_SIZE * BOARD_SIZE && !found; i++)
 	{
 		// Condition: position found
 		if (board[i] != NULL && board[i]->getPieceType() == kingToFind)
@@ -171,6 +176,6 @@ void ChessBoard::addPiece(char pieceType, int position)
 		//case 'B': this->_board.push_back(new Bishop(pieceType, position)); break;
 		case 'R': this->_board.push_back(new Rook(pieceType, position)); break;
 		//case 'Q': this->_board.push_back(new Queen(pieceType, position)); break;
-		//case 'K': this->_board.push_back(new King(pieceType, position)); break;
+		case 'K': this->_board.push_back(new King(pieceType, position)); break;
 	}
 }
