@@ -10,7 +10,7 @@ using std::string;
 void main()
 {
 	// Creating the board:
-	ChessBoard board("rrrrrrrrrrrrrrrr################################RRRRRRRRRRRRRRRR0");
+	ChessBoard board("rrrkrrrrrrrrrrrr################################RRRRRRRRRRRRKRRR0");
 
 	// Pipe connection:
 	Pipe p;
@@ -43,7 +43,7 @@ void main()
 
 	// Sending the starting board message to the frontend:
 	char msgToGraphics[1024];
-	strcpy_s(msgToGraphics, "rrrrrrrrrrrrrrrr################################RRRRRRRRRRRRRRRR0"); // TODO: Change to toString function from ChessBoard
+	strcpy_s(msgToGraphics, "rrrkrrrrrrrrrrrr################################RRRRRRRRRRRRKRRR0"); // TODO: Change to toString function from ChessBoard
 	p.sendMessageToGraphics(msgToGraphics); 
 
 	// Getting the message from the frontend:
@@ -59,13 +59,19 @@ void main()
 	{
 		// Printing the board:
 		board.printBoard();
+		cout << board.getBoard().size() << std::endl;
 
 		// Calculating the source index:
 		srcIndex = msgFromGraphics[0] - 'a' + (BOARD_SIZE - (msgFromGraphics[1] - '0')) * BOARD_SIZE;
 
 		// Getting the Move Code:
-		moveCode = board.getBoard()[srcIndex]->move(msgFromGraphics, board.getBoard(), isWhite);
-		
+		if (board.getBoard()[srcIndex] != NULL)
+			moveCode = board.getBoard()[srcIndex]->move(msgFromGraphics, board.getBoard(), isWhite); // TODO: board vector variable
+
+		// Condition: no friendly piece in srcIndex (Move Code: 2)
+		else
+			moveCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_NO_FRIENDLY_PIECE_IN_SRC);
+
 		// Condition: valid move, update board and current player
 		if (moveCode == "0" || moveCode == "1" || moveCode == "8") // TODO: Change to 1 condition
 		{

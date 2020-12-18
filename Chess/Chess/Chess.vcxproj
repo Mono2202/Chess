@@ -142,6 +142,7 @@
     <ClInclude Include="BoardPosition.h" />
     <ClInclude Include="ChessBoard.h" />
     <ClInclude Include="ChessPiece.h" />
+    <ClInclude Include="King.h" />
     <ClInclude Include="MoveCodes.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Rook.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="BoardPosition.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
+    <ClCompile Include="King.cpp" />
     <ClCompile Include="MoveCodes.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Source.cpp" />
