@@ -56,5 +56,9 @@ string Rook::move(string directions, std::vector<ChessPiece*> board, bool isWhit
 		}
 	}
 
+	// Condition: move made check on enemy King (Move Code: 1)
+	if (returnCode == "0" && this->isChecked(srcIndex, destIndex, board, !isWhite))
+		returnCode = "1";
+
 	return returnCode;
 }
