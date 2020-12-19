@@ -4,6 +4,12 @@
 
 // Constructors:
 
+BoardPosition::BoardPosition()
+{
+	this->_row = 0;
+	this->_column = 0;
+}
+
 BoardPosition::BoardPosition(int row, int column)
 {
 	this->_row = row;
@@ -30,4 +36,17 @@ int BoardPosition::getRow() const
 int BoardPosition::getColumn() const
 {
 	return this->_column;
+}
+
+
+// Setters:
+
+void BoardPosition::setRow(int row)
+{
+	this->_row = row;
+}
+
+void BoardPosition::setColumn(int column)
+{
+	this->_column = column;
 }

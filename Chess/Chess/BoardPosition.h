@@ -4,6 +4,7 @@ class BoardPosition
 {
 public:
 	// Constructors:
+	BoardPosition();
 	BoardPosition(int row, int column);
 
 	// Deconstructors:
@@ -12,6 +13,10 @@ public:
 	// Getters:
 	int getRow() const;
 	int getColumn() const;
+
+	// Setters:
+	void setRow(int row);
+	void setColumn(int column);
 
 private:
 	// Fields:
