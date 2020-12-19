@@ -228,7 +228,8 @@ bool ChessBoard::isChecked(BoardPosition srcPos, BoardPosition destPos, bool isW
 	checkFlag = rowCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || rowCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
 		columnCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || columnCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
 		mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
-		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1);
+		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
+		knightCheck(kingPosition, possibleEnemyPieces);
 
 	// Un-doing the board update:
 	this->_board[srcPos.getRow()][srcPos.getColumn()] = this->_board[destPos.getRow()][destPos.getColumn()];
@@ -354,6 +355,35 @@ bool ChessBoard::secondaryDiagonalCheck(BoardPosition kingPos, string possibleEn
 			// Condition: friendly piece found in King's path
 			else if (islower(currentChessPiece) != isWhite)
 				friendlyPieceFound = true;
+		}
+	}
+
+	return false;
+}
+
+bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
+{
+	// Inits:
+	BoardPosition candidateMove(kingPos.getRow(), kingPos.getColumn());
+	int diffArray[4] = { 1, 2, -1, -2 };
+	int i = 0, j = 0;
+
+	// Checking for Knight threat:
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			// Condition: different difference
+			if (abs(diffArray[i]) != abs(diffArray[j]))
+			{
+				// Setting the new position to check for Knight in:
+				candidateMove.setRow(kingPos.getRow() + i);
+				candidateMove.setColumn(kingPos.getColumn() + j);
+
+				// Condition: Knight threat found
+				if (!candidateMove.isOutOfBounds() && this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[3])
+					return true;
+			}
 		}
 	}
 

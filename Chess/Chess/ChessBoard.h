@@ -48,6 +48,7 @@ private:
 	bool columnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
 	bool mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
 	bool secondaryDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
+	bool knightCheck(BoardPosition kingPos, string possibleEnemyPieces);
 };
 
 // TODO?: operator[]
