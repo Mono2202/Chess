@@ -1,5 +1,7 @@
 #pragma once
 
+#define BOARD_SIZE 8
+
 class BoardPosition
 {
 public:
@@ -17,6 +19,9 @@ public:
 	// Setters:
 	void setRow(int row);
 	void setColumn(int column);
+
+	// Methods:
+	bool isOutOfBounds();
 
 private:
 	// Fields:
