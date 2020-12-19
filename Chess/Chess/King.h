@@ -6,7 +6,7 @@ class King : public ChessPiece
 {
 public:
 	// Constructors:
-	King(char pieceType, int position);
+	King(char pieceType);
 	
 	// Deconstructors:
 	~King();

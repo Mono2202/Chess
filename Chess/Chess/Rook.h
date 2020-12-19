@@ -6,7 +6,7 @@ class Rook : public ChessPiece
 {
 public:
 	// Constructors:
-	Rook(char pieceType, int position);
+	Rook(char pieceType);
 	
 	// Deconstructors:
 	~Rook();
