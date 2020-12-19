@@ -41,4 +41,6 @@ bool Bishop::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board
 		if (board[row][column] != NULL)
 			isValidMove = false;
 	}
+
+	return isValidMove;
 }
