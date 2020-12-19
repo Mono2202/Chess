@@ -7,6 +7,7 @@
 #include "BoardPosition.h"
 #include "Rook.h"
 #include "King.h"
+#include "Queen.h"
 
 using std::string;
 
