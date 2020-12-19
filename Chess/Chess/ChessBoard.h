@@ -3,8 +3,8 @@
 #include <iostream>
 #include <vector>
 
-#include "BoardPosition.h"
 #include "ChessPiece.h"
+#include "BoardPosition.h"
 
 using std::string;
 
@@ -23,25 +23,19 @@ public:
 
 	// Deconstructors:
 	~ChessBoard();
-
-	// Getters:
-	std::vector<ChessPiece*> getBoard() const;
-
-	// Setters:
-	void setBoard(int srcIndex, int destIndex);
 	
-	// Methods:
+	// General Methods:
 	string toString() const;
 	void printBoard();
-	void updateBoard(string directions);
-	
-	// Static Functions:
-	static int getKingPosition(std::vector<ChessPiece*> board, bool isWhite); // TODO: reference
+
+	// Chess Methods:
+	void updateBoard(int srcRow, int srcCol, int destRow, int destCol);
 
 private:
 	// Fields:
-	std::vector<ChessPiece*> _board;
+	ChessPiece* _board[BOARD_SIZE][BOARD_SIZE];
 
 	// Helper Methods:
-	void addPiece(char pieceType, int position);
+	void addPiece(char pieceType, int row, int column);
+	BoardPosition getKingPosition(bool isWhite);
 };

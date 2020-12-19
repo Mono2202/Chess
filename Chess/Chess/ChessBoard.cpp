@@ -9,21 +9,24 @@
 ChessBoard::ChessBoard(string startingBoard)
 {
 	// Inits:
-	int i = 0;
+	int i = 0, j = 0;
 
 	// Initializing the board array:
 	for (i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
 	{
-		// Condition: chess piece to create
-		if (startingBoard[i] != '#')
+		for (j = 0; j < BOARD_SIZE; j++)
 		{
-			this->addPiece(startingBoard[i], i);
-		}
+			// Condition: chess piece to create
+			if (startingBoard[i * BOARD_SIZE + j] != EMPTY_SPACE)
+			{
+				this->addPiece(startingBoard[i * BOARD_SIZE + j], i, j);
+			}
 
-		// Condition: empty spot
-		else
-		{
-			this->_board.push_back(NULL);
+			// Condition: empty spot
+			else
+			{
+				this->_board[i][j] = NULL;
+			}
 		}
 	}
 }
@@ -36,65 +39,45 @@ ChessBoard::~ChessBoard()
 	// Inits:
 	int i = 0, j = 0;
 
-	// Clearing the vector:
+	// Clearing the board:
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
-		// Condition: deleting the current chess piece
-		if (this->_board[i] != NULL)
+		for (j = 0; j < BOARD_SIZE; j++)
 		{
-			delete this->_board[i];
+			// Condition: deleting the current chess piece
+			if (this->_board[i] != NULL)
+			{
+				delete this->_board[i][j];
+			}
 		}
 	}
-
-	this->_board.clear();
 }
 
 
-// Getters:
-
-std::vector<ChessPiece*> ChessBoard::getBoard() const
-{
-	return this->_board;
-}
-
-
-// Setters:
-
-void ChessBoard::setBoard(int srcIndex, int destIndex)
-{
-	// Condition: deleting the chess piece
-	if (this->_board[destIndex] != NULL)
-		delete this->_board[destIndex];
-
-	// Switching both positions:
-	this->_board[destIndex] = this->_board[srcIndex];
-	
-	// Emptying the source position:
-	this->_board[srcIndex] = NULL;
-}
-
-
-// Methods:
+// General Methods:
 
 string ChessBoard::toString() const
 {
 	// Inits:
 	string boardString = "";
-	int i = 0;
+	int i = 0, j = 0;
 
 	// Building the board string:
-	for (i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
+	for (i = 0; i < BOARD_SIZE; i++)
 	{
-		// Condition: chess piece
-		if (this->_board[i] != NULL)
+		for (j = 0; j < BOARD_SIZE; j++)
 		{
-			boardString += this->_board[i]->getPieceType();
-		}
+			// Condition: chess piece
+			if (this->_board[i][j] != NULL)
+			{
+				boardString += this->_board[i][j]->getPieceType();
+			}
 
-		// Condition: empty spot
-		else
-		{
-			boardString += EMPTY_SPACE;
+			// Condition: empty spot
+			else
+			{
+				boardString += EMPTY_SPACE;
+			}
 		}
 	}
 
@@ -115,8 +98,8 @@ void ChessBoard::printBoard()
 		for (j = 0; j < BOARD_SIZE; j++)
 		{
 			// Condition: chess piece
-			if (this->_board[i * BOARD_SIZE + j] != NULL)
-				std::cout << this->_board[i * BOARD_SIZE + j]->getPieceType() << " ";
+			if (this->_board[i][j] != NULL)
+				std::cout << this->_board[i][j]->getPieceType() << " ";
 
 			// Condition: empty spot
 			else
@@ -128,45 +111,26 @@ void ChessBoard::printBoard()
 	}
 }
 
-void ChessBoard::updateBoard(string directions)
+
+// Chess Methods:
+
+void ChessBoard::updateBoard(int srcRow, int srcCol, int destRow, int destCol)
 {
-	// Inits:
-	int srcIndex = directions[0] - 'a' + (BOARD_SIZE - (directions[1] - '0')) * BOARD_SIZE;  // TODO: #define
-	int destIndex = directions[2] - 'a' + (BOARD_SIZE - (directions[3] - '0')) * BOARD_SIZE;
+	// Condition: deleting the chess piece
+	if (this->_board[destRow][destCol] != NULL)
+		delete this->_board[destRow][destCol];
 
-	// Updating the board:
-	this->setBoard(srcIndex, destIndex);
-}
+	// Switching both positions:
+	this->_board[destRow][destCol] = this->_board[srcRow][srcCol];
 
-
-// Static Functions:
-
-int ChessBoard::getKingPosition(std::vector<ChessPiece*> board, bool isWhite)
-{
-	// Inits:
-	int kingPosition = 0;
-	char kingToFind = (isWhite) ? 'K' : 'k';
-	bool found = false;
-	int i = 0;
-
-	// Finds the wanted king's position:
-	for (i = 0; i < BOARD_SIZE * BOARD_SIZE && !found; i++)
-	{
-		// Condition: position found
-		if (board[i] != NULL && board[i]->getPieceType() == kingToFind)
-		{
-			kingPosition = i;
-			found = true;
-		}
-	}
-
-	return kingPosition;
+	// Emptying the source position:
+	this->_board[srcRow][srcCol] = NULL;
 }
 
 
 // Helper Methods:
 
-void ChessBoard::addPiece(char pieceType, int position)
+void ChessBoard::addPiece(char pieceType, int row, int column)
 {
 	// Creating the proper chess piece:
 	switch (toupper(pieceType))
@@ -174,8 +138,34 @@ void ChessBoard::addPiece(char pieceType, int position)
 		//case 'P': this->_board.push_back(new Pawn(pieceType, position)); break;
 		//case 'N': this->_board.push_back(new Knight(pieceType, position)); break;
 		//case 'B': this->_board.push_back(new Bishop(pieceType, position)); break;
-		case 'R': this->_board.push_back(new Rook(pieceType, position)); break;
+		case 'R': this->_board[row][column] = new Rook(pieceType); break;
 		//case 'Q': this->_board.push_back(new Queen(pieceType, position)); break;
-		case 'K': this->_board.push_back(new King(pieceType, position)); break;
+		case 'K': this->_board[row][column] = new King(pieceType); break;
 	}
+}
+
+BoardPosition ChessBoard::getKingPosition(bool isWhite)
+{
+	// Inits:
+	BoardPosition kingPosition;
+	char kingToFind = (isWhite) ? 'K' : 'k';
+	bool found = false;
+	int i = 0, j = 0;
+
+	// Finds the wanted king's position:
+	for (i = 0; i < BOARD_SIZE && !found; i++)
+	{
+		for (j = 0; j < BOARD_SIZE && !found; j++)
+		{
+			// Condition: position found
+			if (this->_board[i][j] != NULL && this->_board[i][j]->getPieceType() == kingToFind)
+			{
+				kingPosition.setRow(i);
+				kingPosition.setColumn(j);
+				found = true;
+			}
+		}
+	}
+
+	return kingPosition;
 }
