@@ -173,7 +173,7 @@ void ChessBoard::addPiece(char pieceType, BoardPosition position)
 	// Creating the proper chess piece:
 	switch (toupper(pieceType))
 	{
-		//case 'P': this->_board.push_back(new Pawn(pieceType, position)); break;
+		case 'P': this->_board[position.getRow()][position.getColumn()] = new Pawn(pieceType); break;
 		case 'N': this->_board[position.getRow()][position.getColumn()] = new Knight(pieceType); break;
 		case 'B': this->_board[position.getRow()][position.getColumn()] = new Bishop(pieceType); break;
 		case 'R': this->_board[position.getRow()][position.getColumn()] = new Rook(pieceType); break;
@@ -229,7 +229,7 @@ bool ChessBoard::isChecked(BoardPosition srcPos, BoardPosition destPos, bool isW
 		columnCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || columnCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
 		mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
 		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
-		knightCheck(kingPosition, possibleEnemyPieces) || pawnCheck(kingPosition, possibleEnemyPieces, isWhite);
+		knightCheck(kingPosition, possibleEnemyPieces) || pawnCheck(kingPosition, possibleEnemyPieces, isWhite); // TODO: KING THREAT CHECK
 
 	// Un-doing the board update:
 	this->_board[srcPos.getRow()][srcPos.getColumn()] = this->_board[destPos.getRow()][destPos.getColumn()];
