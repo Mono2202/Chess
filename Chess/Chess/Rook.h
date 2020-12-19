@@ -12,5 +12,5 @@ public:
 	~Rook();
 
 	// Virtual Functions:
-	virtual string move(string directions, std::vector<ChessPiece*> board, bool isWhite);
+	virtual bool move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite);
 };

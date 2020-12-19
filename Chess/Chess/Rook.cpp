@@ -4,7 +4,7 @@
 
 // Constructors:
 
-Rook::Rook(char pieceType, int position) : ChessPiece(pieceType) { }
+Rook::Rook(char pieceType) : ChessPiece(pieceType) { }
 
 
 // Destructors:
@@ -14,51 +14,34 @@ Rook::~Rook() { }
 
 // Virtual Functions:
 
-string Rook::move(string directions, std::vector<ChessPiece*> board, bool isWhite)
+bool Rook::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite)
 {
 	// Inits:
-	string srcPos = directions.substr(0, 2);  // TODO: #define
-	string destPos = directions.substr(2, 2);
-	int srcIndex = srcPos[0] - 'a' + (BOARD_SIZE - (srcPos[1] - '0')) * BOARD_SIZE;
-	int destIndex = destPos[0] - 'a' + (BOARD_SIZE - (destPos[1] - '0')) * BOARD_SIZE;
-	int difference = 0;
-	string returnCode = "";
-	bool collisionFound = false;
-	int i = 0;
-	
-	// Checking general move validity: 
-	returnCode = generalMoveCheck(srcPos, destPos, board, isWhite);
+	int diffRow = 0, diffCol = 0;
+	bool isValidMove = true;
+	int row = 0, column = 0;
 
-	// Condition: specific Rook moves need to be checked
-	if (returnCode == "0")
-	{
-		// Condition: move isn't horizontal and isn't vertical
-		if (srcPos[0] != destPos[0] && srcPos[1] != destPos[1])
-			returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
+	// Condition: move isn't horizontal and isn't vertical
+	if (srcPos.getRow() != destPos.getRow() && srcPos.getColumn() != destPos.getColumn())
+		isValidMove = false;
 		
-		// Condition: vertical move
-		if (srcPos[0] == destPos[0])
-			difference = (srcIndex < destIndex) ? BOARD_SIZE : -BOARD_SIZE;
+	// Condition: vertical move
+	else if (srcPos.getRow() == destPos.getRow())
+		diffCol = (destPos.getColumn() < destPos.getColumn()) ? 1 : -1;
 
-		// Condition: horizontal move
-		else
-			difference = (srcIndex < destIndex) ? 1 : -1; // TODO: #define
+	// Condition: horizontal move
+	else
+		diffRow = (srcPos.getRow() < destPos.getRow()) ? 1 : -1; // TODO: #define
 
-		// Checking for collisions:
-		for (i = srcIndex + difference; i != destIndex && !collisionFound; i += difference)
-		{
-			// Condition: collision detected (Move Code: 6)
-			if (board[i] != NULL)
-			{
-				returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
-				collisionFound = true;
-			}
-		}
+	// Checking for collisions:
+	for (row = srcPos.getRow() + diffRow, column = srcPos.getColumn() + diffCol;
+		(row != destPos.getRow() || column != destPos.getColumn()) && isValidMove;
+		row += diffRow, column += diffCol)
+	{
+		// Condition: collision detected, invalid Rook move (Move Code: 6)
+		if (board[row][column] != NULL)
+			isValidMove = false;
 	}
-
-	// Condition: move made check on enemy King (Move Code: 1)
-	if (returnCode == "0" && this->isChecked(srcIndex, destIndex, board, !isWhite))
-		returnCode = "1";
-
-	return returnCode;
+	
+	return isValidMove;
 }

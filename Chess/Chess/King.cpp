@@ -4,7 +4,7 @@
 
 // Constructors:
 
-King::King(char pieceType, int position) : ChessPiece(pieceType) { }
+King::King(char pieceType) : ChessPiece(pieceType) { }
 
 
 // Destructors:
@@ -14,34 +14,16 @@ King::~King() { }
 
 // Virtual Functions:
 
-string King::move(string directions, std::vector<ChessPiece*> board, bool isWhite)
+bool King::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite)
 {
 	// Inits:
-	string srcPos = directions.substr(0, 2);  // TODO: #define
-	string destPos = directions.substr(2, 2);
-	int srcIndex = srcPos[0] - 'a' + (BOARD_SIZE - (srcPos[1] - '0')) * BOARD_SIZE;
-	int destIndex = destPos[0] - 'a' + (BOARD_SIZE - (destPos[1] - '0')) * BOARD_SIZE;
-	int difference = 0;
-	string returnCode = "";
-	bool collisionFound = false;
-	int i = 0;
+	int diffRow = 0, diffCol = 0;
+	bool isValidMove = true;
+	int row = 0, column = 0;
+
+	// Condition: invalid King move (Move Code: 6)
+	if (abs(srcPos.getRow() - destPos.getRow()) > 1 || abs(srcPos.getColumn() - destPos.getColumn()) > 1)
+		isValidMove = false;
 	
-	// Checking general move validity: 
-	returnCode = generalMoveCheck(srcPos, destPos, board, isWhite);
-
-	// Condition: specific King moves need to be checked
-	if (returnCode == "0")
-
-		// Condition: invalid King move (Move Code: 6)
-		if (abs(srcIndex % BOARD_SIZE - destIndex % BOARD_SIZE) > 1 || abs(srcIndex / BOARD_SIZE - destIndex / BOARD_SIZE) > 1)
-			returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE);
-	
-	// Condition: move made check on enemy King (Move Code: 1)
-	if (returnCode == "0" && this->isChecked(srcIndex, destIndex, board, !isWhite))
-		returnCode = "1";
-
-	return returnCode;
+	return isValidMove;
 }
-
-
-// TODO: CHANGE VECTOR TO 2D ARRAY
