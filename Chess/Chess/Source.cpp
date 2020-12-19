@@ -9,8 +9,11 @@ using std::string;
 
 void main()
 {
+	// Starting board string:
+	string startingBoard = "rrrkqrrrrrrrrrrr################################RRRRRRRRRRRQKRRR0"; // TODO: CHANGE TO CHAR ARRAY
+
 	// Creating the board:
-	ChessBoard board("rrrkrrrrrrrrrrrr################################RRRRRRRRRRRRKRRR0");
+	ChessBoard board(startingBoard);
 
 	// Pipe connection:
 	Pipe p;
@@ -43,7 +46,7 @@ void main()
 
 	// Sending the starting board message to the frontend:
 	char msgToGraphics[1024];
-	strcpy_s(msgToGraphics, "rrrkrrrrrrrrrrrr################################RRRRRRRRRRRRKRRR0"); // TODO: Change to toString function from ChessBoard
+	strcpy_s(msgToGraphics, "rrrkqrrrrrrrrrrr################################RRRRRRRRRRRQKRRR0"); // TODO: Change to toString function from ChessBoard
 	p.sendMessageToGraphics(msgToGraphics); 
 
 	// Getting the message from the frontend:
