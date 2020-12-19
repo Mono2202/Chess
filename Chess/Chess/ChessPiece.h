@@ -35,5 +35,4 @@ protected:
 private:
 	// Fields:
 	char _pieceType;
-	int _position;
 };
