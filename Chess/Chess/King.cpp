@@ -4,7 +4,7 @@
 
 // Constructors:
 
-King::King(char pieceType, int position) : ChessPiece(pieceType, position) { }
+King::King(char pieceType, int position) : ChessPiece(pieceType) { }
 
 
 // Destructors:

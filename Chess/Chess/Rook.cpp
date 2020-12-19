@@ -4,7 +4,7 @@
 
 // Constructors:
 
-Rook::Rook(char pieceType, int position) : ChessPiece(pieceType, position) { }
+Rook::Rook(char pieceType, int position) : ChessPiece(pieceType) { }
 
 
 // Destructors:

@@ -4,10 +4,9 @@
 
 // Constructors:
 
-ChessPiece::ChessPiece(char pieceType, int position)
+ChessPiece::ChessPiece(char pieceType)
 {
 	this->_pieceType = pieceType;
-	this->_position = position;
 }
 
 

@@ -16,7 +16,7 @@ class ChessPiece
 {
 public:
 	// Constructors:
-	ChessPiece(char pieceType, int position);
+	ChessPiece(char pieceType);
 
 	// Destructors:
 	~ChessPiece();
