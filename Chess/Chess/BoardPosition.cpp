@@ -52,6 +52,14 @@ void BoardPosition::setColumn(int column)
 }
 
 
+// Operators:
+
+bool BoardPosition::operator==(const BoardPosition& otherPos)
+{
+	return this->_row == otherPos._row && this->_column == otherPos._column;
+}
+
+
 // Methods:
 
 bool BoardPosition::isOutOfBounds()

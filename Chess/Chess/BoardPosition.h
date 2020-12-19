@@ -20,6 +20,9 @@ public:
 	void setRow(int row);
 	void setColumn(int column);
 
+	// Operators:
+	bool operator==(const BoardPosition& otherPos);
+
 	// Methods:
 	bool isOutOfBounds();
 
@@ -28,3 +31,5 @@ private:
 	int _row;
 	int _column;
 };
+
+// TODO: CHANGE FUNCTIONS TO HAVE refrences AND consts
