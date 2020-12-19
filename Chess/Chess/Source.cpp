@@ -10,7 +10,7 @@ using std::string;
 void main()
 {
 	// Starting board string:
-	string startingBoard = "rrbqkbrrrrrrrrrr################################RRRRRRRRRRBQKBRR0"; // TODO: CHANGE TO CHAR ARRAY
+	string startingBoard = "rnbqkbnrrrrrrrrr################################RRRRRRRRRNBQKBNR0"; // TODO: CHANGE TO CHAR ARRAY
 
 	// Creating the board:
 	ChessBoard board(startingBoard);
@@ -46,7 +46,7 @@ void main()
 
 	// Sending the starting board message to the frontend:
 	char msgToGraphics[1024];
-	strcpy_s(msgToGraphics, "rrbqkbrrrrrrrrrr################################RRRRRRRRRRBQKBRR0"); // TODO: Change to toString function from ChessBoard
+	strcpy_s(msgToGraphics, "rnbqkbnrrrrrrrrr################################RRRRRRRRRNBQKBNR0"); // TODO: Change to toString function from ChessBoard
 	p.sendMessageToGraphics(msgToGraphics); 
 
 	// Getting the message from the frontend:
