@@ -50,7 +50,8 @@ void main()
 	string msgFromGraphics = p.getMessageFromGraphics();
 
 	// Inits:
-	int srcIndex = 0;
+	BoardPosition srcPos;
+	BoardPosition destPos;
 	string moveCode = "";
 	bool isWhite = true;
 
@@ -59,23 +60,20 @@ void main()
 	{
 		// Printing the board:
 		board.printBoard();
-		cout << board.getBoard().size() << std::endl;
 
-		// Calculating the source index:
-		srcIndex = msgFromGraphics[0] - 'a' + (BOARD_SIZE - (msgFromGraphics[1] - '0')) * BOARD_SIZE;
+		// Calculating the current board positions:
+		srcPos.setRow(BOARD_SIZE - (msgFromGraphics[1] - '0'));
+		srcPos.setColumn(msgFromGraphics[0] - 'a');
+		destPos.setRow(BOARD_SIZE - (msgFromGraphics[3] - '0'));
+		destPos.setColumn(msgFromGraphics[2] - 'a');
 
 		// Getting the Move Code:
-		if (board.getBoard()[srcIndex] != NULL)
-			moveCode = board.getBoard()[srcIndex]->move(msgFromGraphics, board.getBoard(), isWhite); // TODO: board vector variable
-
-		// Condition: no friendly piece in srcIndex (Move Code: 2)
-		else
-			moveCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_NO_FRIENDLY_PIECE_IN_SRC);
+		moveCode = board.moveCheck(srcPos, destPos, isWhite);
 
 		// Condition: valid move, update board and current player
 		if (moveCode == "0" || moveCode == "1" || moveCode == "8") // TODO: Change to 1 condition
 		{
-			board.updateBoard(msgFromGraphics);
+			board.updateBoard(srcPos, destPos);
 			isWhite = !isWhite;
 		}
 

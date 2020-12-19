@@ -4,14 +4,12 @@
 #include <string>
 #include <cmath>
 
-#include "ChessBoard.h"
 #include "MoveCodes.h"
+#include "BoardPosition.h"
 
 #define BOARD_SIZE 8
 
 using std::string;
-
-class ChessBoard;
 
 class ChessPiece
 {

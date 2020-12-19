@@ -5,6 +5,8 @@
 
 #include "ChessPiece.h"
 #include "BoardPosition.h"
+#include "Rook.h"
+#include "King.h"
 
 using std::string;
 
@@ -12,8 +14,6 @@ using std::string;
 
 #define EMPTY_SPACE '#'
 #define STARTING_PLAYER '0'
-
-class ChessPiece;
 
 class ChessBoard
 {
@@ -23,19 +23,29 @@ public:
 
 	// Deconstructors:
 	~ChessBoard();
-	
+
 	// General Methods:
 	string toString() const;
 	void printBoard();
 
 	// Chess Methods:
-	void updateBoard(int srcRow, int srcCol, int destRow, int destCol);
+	string moveCheck(BoardPosition srcPos, BoardPosition destPos, bool isWhite);
+	void updateBoard(BoardPosition srcPos, BoardPosition destPos);
 
 private:
 	// Fields:
 	ChessPiece* _board[BOARD_SIZE][BOARD_SIZE];
 
 	// Helper Methods:
-	void addPiece(char pieceType, int row, int column);
+	void addPiece(char pieceType, BoardPosition position);
 	BoardPosition getKingPosition(bool isWhite);
+	bool isChecked(BoardPosition srcPos, BoardPosition destPos, bool isWhite);
+
+	// isChecked Helper Methods:
+	bool rowCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
+	bool columnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
+	bool mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
+	bool secondaryDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
 };
+
+// TODO?: operator[]
