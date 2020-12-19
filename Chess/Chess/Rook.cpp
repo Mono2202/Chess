@@ -27,7 +27,7 @@ bool Rook::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[B
 		
 	// Condition: vertical move
 	else if (srcPos.getRow() == destPos.getRow())
-		diffCol = (destPos.getColumn() < destPos.getColumn()) ? 1 : -1;
+		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? 1 : -1;
 
 	// Condition: horizontal move
 	else
