@@ -9,6 +9,7 @@
 #include "King.h"
 #include "Queen.h"
 #include "Bishop.h"
+#include "Knight.h"
 
 using std::string;
 

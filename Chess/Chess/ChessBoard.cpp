@@ -174,7 +174,7 @@ void ChessBoard::addPiece(char pieceType, BoardPosition position)
 	switch (toupper(pieceType))
 	{
 		//case 'P': this->_board.push_back(new Pawn(pieceType, position)); break;
-		//case 'N': this->_board.push_back(new Knight(pieceType, position)); break;
+		case 'N': this->_board[position.getRow()][position.getColumn()] = new Knight(pieceType); break;
 		case 'B': this->_board[position.getRow()][position.getColumn()] = new Bishop(pieceType); break;
 		case 'R': this->_board[position.getRow()][position.getColumn()] = new Rook(pieceType); break;
 		case 'Q': this->_board[position.getRow()][position.getColumn()] = new Queen(pieceType); break;
