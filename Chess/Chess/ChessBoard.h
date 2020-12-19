@@ -50,6 +50,7 @@ private:
 	bool mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
 	bool secondaryDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
 	bool knightCheck(BoardPosition kingPos, string possibleEnemyPieces);
+	bool pawnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite);
 };
 
 // TODO?: operator[]

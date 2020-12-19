@@ -229,7 +229,7 @@ bool ChessBoard::isChecked(BoardPosition srcPos, BoardPosition destPos, bool isW
 		columnCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || columnCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
 		mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
 		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
-		knightCheck(kingPosition, possibleEnemyPieces);
+		knightCheck(kingPosition, possibleEnemyPieces) || pawnCheck(kingPosition, possibleEnemyPieces, isWhite);
 
 	// Un-doing the board update:
 	this->_board[srcPos.getRow()][srcPos.getColumn()] = this->_board[destPos.getRow()][destPos.getColumn()];
@@ -389,6 +389,19 @@ bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
 			}
 		}
 	}
+
+	return false;
+}
+
+bool ChessBoard::pawnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite)
+{
+	// Inits:
+	int moveDirection = (isWhite) ? -1 : 1;
+
+	// Condition: Pawn threat found
+	if (this->_board[kingPos.getRow() + moveDirection][kingPos.getColumn() - 1]->getPieceType() == possibleEnemyPieces[4] ||
+		this->_board[kingPos.getRow() + moveDirection][kingPos.getColumn() + 1]->getPieceType() == possibleEnemyPieces[4])
+		return true;
 
 	return false;
 }
