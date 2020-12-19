@@ -32,13 +32,15 @@ bool Pawn::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[B
 	}
 	
 	// Condition: not first Pawn move
-	else if (this->_hasMoved && (destPos.getRow() - srcPos.getRow()) * moveDirection <= 1 && srcPos.getColumn() == destPos.getColumn() && board[destPos.getRow()][destPos.getColumn()] == NULL)
+	else if (this->_hasMoved && (destPos.getRow() - srcPos.getRow()) * moveDirection == 1 && srcPos.getColumn() == destPos.getColumn() && board[destPos.getRow()][destPos.getColumn()] == NULL)
 		isValidMove = true;
 
 	// Condition: Pawn is able to attack
-	else if (abs(destPos.getRow() - srcPos.getRow()) == 1 && abs(destPos.getColumn() - srcPos.getColumn()) == 1 && board[destPos.getRow()][destPos.getColumn()] != NULL)
+	else if ((destPos.getRow() - srcPos.getRow()) * moveDirection == 1 && abs(destPos.getColumn() - srcPos.getColumn()) == 1 && board[destPos.getRow()][destPos.getColumn()] != NULL)
+	{
 		isValidMove = true;
+		this->_hasMoved = true;
+	}
 
-	// Condition: invalid Pawn move (Move Code: 6)
 	return isValidMove;
 }
