@@ -4,9 +4,10 @@
 #include <string>
 #include <cmath>
 
-#include "BoardPosition.h"
 #include "ChessBoard.h"
 #include "MoveCodes.h"
+
+#define BOARD_SIZE 8
 
 using std::string;
 
@@ -25,12 +26,7 @@ public:
 	char getPieceType() const;
 
 	// Pure Virtual Functions:
-	virtual string move(string directions, std::vector<ChessPiece*> board, bool isWhite) = 0; // TODO: maybe refrence vector?
-	
-protected:
-	// Protected Methods:
-	string generalMoveCheck(string srcPos, string destPost, std::vector<ChessPiece*> board, bool isWhite);
-	bool isChecked(int srcIndex, int destIndex, std::vector<ChessPiece*> board, bool isWhite);
+	virtual bool move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite) = 0;
 
 private:
 	// Fields:
