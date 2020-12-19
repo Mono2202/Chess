@@ -21,7 +21,7 @@ bool Queen::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[
 	bool isValidMove = true;
 	int row = 0, column = 0;
 
-	// Condition: invalid King move (Move Code: 6)
+	// Condition: invalid Queen move (Move Code: 6)
 	if ((srcPos.getRow() != destPos.getRow() && srcPos.getColumn() != destPos.getColumn()) &&
 		abs(srcPos.getRow() - destPos.getRow()) != abs(srcPos.getColumn() - destPos.getColumn()))
 		isValidMove = false;
