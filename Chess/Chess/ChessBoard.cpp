@@ -397,11 +397,21 @@ bool ChessBoard::pawnCheck(BoardPosition kingPos, string possibleEnemyPieces, bo
 {
 	// Inits:
 	int moveDirection = (isWhite) ? -1 : 1;
+	BoardPosition candidateMove(kingPos.getRow() + moveDirection, kingPos.getColumn() - 1);
+	int i = 0;
 
-	// Condition: Pawn threat found
-	if (this->_board[kingPos.getRow() + moveDirection][kingPos.getColumn() - 1]->getPieceType() == possibleEnemyPieces[4] ||
-		this->_board[kingPos.getRow() + moveDirection][kingPos.getColumn() + 1]->getPieceType() == possibleEnemyPieces[4])
-		return true;
+	for (i = 0; i < 2; i++)
+	{
+		// Condition: Chess Piece is not out of bounds and exists
+		if (!candidateMove.isOutOfBounds() && this->_board[candidateMove.getRow()][candidateMove.getColumn()] != NULL)
+
+			// Condition: Pawn threat found
+			if (this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[4])
+				return true;
+
+		// Checking other possible Pawn threat position:
+		candidateMove.setColumn(kingPos.getColumn() + 1);
+	}
 
 	return false;
 }
