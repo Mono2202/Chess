@@ -2,6 +2,8 @@
 
 #include "ChessPiece.h"
 
+#define BISHOP_DIFFERENCE 1
+
 class Bishop : public ChessPiece
 {
 public:

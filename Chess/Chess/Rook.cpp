@@ -27,11 +27,11 @@ bool Rook::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[B
 		
 	// Condition: vertical move
 	else if (srcPos.getRow() == destPos.getRow())
-		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? 1 : -1;
+		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? ROOK_DIFFERENCE : -ROOK_DIFFERENCE;
 
 	// Condition: horizontal move
 	else
-		diffRow = (srcPos.getRow() < destPos.getRow()) ? 1 : -1; // TODO: #define
+		diffRow = (srcPos.getRow() < destPos.getRow()) ? ROOK_DIFFERENCE : -ROOK_DIFFERENCE; // TODO: #define
 
 	// Checking for collisions:
 	for (row = srcPos.getRow() + diffRow, column = srcPos.getColumn() + diffCol;

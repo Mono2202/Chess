@@ -2,6 +2,8 @@
 
 #include "ChessPiece.h"
 
+#define KING_DIFFERENCE 1
+
 class King : public ChessPiece
 {
 public:

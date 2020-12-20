@@ -28,8 +28,8 @@ bool Bishop::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board
 	// Condition: diagonal move
 	else
 	{
-		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? 1 : -1;
-		diffRow = (srcPos.getRow() < destPos.getRow()) ? 1 : -1;
+		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? BISHOP_DIFFERENCE : -BISHOP_DIFFERENCE;
+		diffRow = (srcPos.getRow() < destPos.getRow()) ? BISHOP_DIFFERENCE : -BISHOP_DIFFERENCE;
 	}
 
 	// Checking for collisions:

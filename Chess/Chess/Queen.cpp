@@ -28,17 +28,17 @@ bool Queen::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[
 
 	// Condition: vertical move
 	else if (srcPos.getRow() == destPos.getRow())
-		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? 1 : -1;
+		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? QUEEN_DIFFERENCE : -QUEEN_DIFFERENCE;
 
 	// Condition: horizontal move
 	else if (srcPos.getColumn() == destPos.getColumn())
-		diffRow = (srcPos.getRow() < destPos.getRow()) ? 1 : -1; // TODO: #define
+		diffRow = (srcPos.getRow() < destPos.getRow()) ? QUEEN_DIFFERENCE : -QUEEN_DIFFERENCE;
 
 	// Condition: diagonal move
 	else
 	{
-		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? 1 : -1;
-		diffRow = (srcPos.getRow() < destPos.getRow()) ? 1 : -1;
+		diffCol = (srcPos.getColumn() < destPos.getColumn()) ? QUEEN_DIFFERENCE : -QUEEN_DIFFERENCE;
+		diffRow = (srcPos.getRow() < destPos.getRow()) ? QUEEN_DIFFERENCE : -QUEEN_DIFFERENCE;
 	}
 
 	// Checking for collisions:

@@ -22,7 +22,7 @@ bool King::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[B
 	int row = 0, column = 0;
 
 	// Condition: invalid King move (Move Code: 6)
-	if (abs(srcPos.getRow() - destPos.getRow()) > 1 || abs(srcPos.getColumn() - destPos.getColumn()) > 1)
+	if (abs(srcPos.getRow() - destPos.getRow()) > KING_DIFFERENCE || abs(srcPos.getColumn() - destPos.getColumn()) > KING_DIFFERENCE)
 		isValidMove = false;
 	
 	return isValidMove;

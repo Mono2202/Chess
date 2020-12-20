@@ -21,7 +21,7 @@ bool Knight::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board
 	bool isValidMove = true;
 
 	// Condition: invalid Knight move (Move Code: 6)
-	if (diffRow * diffCol != 2)
+	if (diffRow * diffCol != KNIGHT_DIFFERENCE_2)
 		isValidMove = false;
 	
 	return isValidMove;

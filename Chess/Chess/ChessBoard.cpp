@@ -17,7 +17,7 @@ ChessBoard::ChessBoard(string startingBoard)
 			// Condition: chess piece to create
 			if (startingBoard[row * BOARD_SIZE + column] != EMPTY_SPACE)
 			{
-				this->addPiece(startingBoard[row * BOARD_SIZE + column], BoardPosition(row, column)); // TODO: PASS BoardPosition object
+				this->addPiece(startingBoard[row * BOARD_SIZE + column], BoardPosition(row, column));
 			}
 
 			// Condition: empty spot
@@ -53,37 +53,6 @@ ChessBoard::~ChessBoard()
 
 
 // General Methods:
-
-string ChessBoard::toString() const
-{
-	// Inits:
-	string boardString = "";
-	int row = 0, column = 0;
-
-	// Building the board string:
-	for (row = 0; row < BOARD_SIZE; row++)
-	{
-		for (column = 0; column < BOARD_SIZE; column++)
-		{
-			// Condition: chess piece
-			if (this->_board[row][column] != NULL)
-			{
-				boardString += this->_board[row][column]->getPieceType();
-			}
-
-			// Condition: empty spot
-			else
-			{
-				boardString += EMPTY_SPACE;
-			}
-		}
-	}
-
-	// Starting player:
-	boardString += STARTING_PLAYER;
-
-	return boardString;
-}
 
 void ChessBoard::printBoard()
 {
@@ -144,10 +113,12 @@ string ChessBoard::moveCheck(BoardPosition srcPos, BoardPosition destPos, bool i
 		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_FRIENDLY_CHECK);  // TODO: MOVE AFTER SPECIFIC MOVES CHECK
 
 	// Condition: valid move (Move Code: 0)
-	if (returnCode == "0")
+	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE))
 
 		// Condition: move made check on enemy King (Move Code: 1)
-		returnCode = (isChecked(srcPos, destPos, !isWhite)) ? "1" : "0";
+		returnCode = (isChecked(srcPos, destPos, !isWhite)) ? 
+		MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) : 
+		MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE);
 
 	return returnCode;
 }
@@ -225,10 +196,10 @@ bool ChessBoard::isChecked(BoardPosition srcPos, BoardPosition destPos, bool isW
 	kingPosition = ChessBoard::getKingPosition(isWhite);
 
 	// Checking for Check on King:
-	checkFlag = rowCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || rowCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
-		columnCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || columnCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
-		mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
-		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, 1) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -1) ||
+	checkFlag = rowCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || rowCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
+		columnCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || columnCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
+		mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
+		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
 		knightCheck(kingPosition, possibleEnemyPieces) || pawnCheck(kingPosition, possibleEnemyPieces, isWhite); // TODO: KING THREAT CHECK
 
 	// Un-doing the board update:
@@ -258,7 +229,7 @@ bool ChessBoard::rowCheck(BoardPosition kingPos, string possibleEnemyPieces, boo
 			currentChessPiece = this->_board[row][column]->getPieceType();
 
 			// Condition: enemy piece found in King's path
-			if (currentChessPiece == possibleEnemyPieces[0] || currentChessPiece == possibleEnemyPieces[1])
+			if (currentChessPiece == possibleEnemyPieces[QUEEN_INDEX] || currentChessPiece == possibleEnemyPieces[ROOK_INDEX])
 				return true;
 
 			// Condition: blocking piece found in King's path
@@ -287,7 +258,7 @@ bool ChessBoard::columnCheck(BoardPosition kingPos, string possibleEnemyPieces, 
 			currentChessPiece = this->_board[row][column]->getPieceType();
 
 			// Condition: enemy piece found in King's path
-			if (currentChessPiece == possibleEnemyPieces[0] || currentChessPiece == possibleEnemyPieces[1])
+			if (currentChessPiece == possibleEnemyPieces[QUEEN_INDEX] || currentChessPiece == possibleEnemyPieces[ROOK_INDEX])
 				return true;
 
 			// Condition: blocking piece found in King's path
@@ -318,7 +289,7 @@ bool ChessBoard::mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPi
 			currentChessPiece = this->_board[row][column]->getPieceType();
 
 			// Condition: enemy piece found in King's path
-			if (currentChessPiece == possibleEnemyPieces[0] || currentChessPiece == possibleEnemyPieces[2])
+			if (currentChessPiece == possibleEnemyPieces[QUEEN_INDEX] || currentChessPiece == possibleEnemyPieces[BISHOP_INDEX])
 				return true;
 
 			// Condition: blocking piece found in King's path
@@ -349,7 +320,7 @@ bool ChessBoard::secondaryDiagonalCheck(BoardPosition kingPos, string possibleEn
 			currentChessPiece = this->_board[row][column]->getPieceType();
 
 			// Condition: enemy piece found in King's path
-			if (currentChessPiece == possibleEnemyPieces[0] || currentChessPiece == possibleEnemyPieces[2])
+			if (currentChessPiece == possibleEnemyPieces[QUEEN_INDEX] || currentChessPiece == possibleEnemyPieces[BISHOP_INDEX])
 				return true;
 
 			// Condition: blocking piece found in King's path
@@ -365,13 +336,13 @@ bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
 {
 	// Inits:
 	BoardPosition candidateMove(kingPos.getRow(), kingPos.getColumn());
-	int diffArray[4] = { 1, 2, -1, -2 };
+	int diffArray[POSSIBLE_KNIGHT_THREATS_ARRAY_SIZE] = { KNIGHT_DIFFERENCE_1, KNIGHT_DIFFERENCE_2, -KNIGHT_DIFFERENCE_1, -KNIGHT_DIFFERENCE_2 };
 	int i = 0, j = 0;
 
 	// Checking for Knight threat:
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < POSSIBLE_KNIGHT_THREATS_ARRAY_SIZE; i++)
 	{
-		for (j = 0; j < 4; j++)
+		for (j = 0; j < POSSIBLE_KNIGHT_THREATS_ARRAY_SIZE; j++)
 		{
 			// Condition: different difference
 			if (abs(diffArray[i]) != abs(diffArray[j]))
@@ -384,7 +355,7 @@ bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
 				if (!candidateMove.isOutOfBounds() && this->_board[candidateMove.getRow()][candidateMove.getColumn()] != NULL)
 
 					// Condition: Knight threat found
-					if (this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[3])
+					if (this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[KNIGHT_INDEX])
 						return true;
 			}
 		}
@@ -396,21 +367,21 @@ bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
 bool ChessBoard::pawnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite)
 {
 	// Inits:
-	int moveDirection = (isWhite) ? -1 : 1;
-	BoardPosition candidateMove(kingPos.getRow() + moveDirection, kingPos.getColumn() - 1);
+	int moveDirection = (isWhite) ? -PAWN_DIFFERENCE : PAWN_DIFFERENCE;
+	BoardPosition candidateMove(kingPos.getRow() + moveDirection, kingPos.getColumn() - PAWN_DIFFERENCE);
 	int i = 0;
 
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < POSSIBLE_PAWN_THREATS; i++)
 	{
 		// Condition: Chess Piece is not out of bounds and exists
 		if (!candidateMove.isOutOfBounds() && this->_board[candidateMove.getRow()][candidateMove.getColumn()] != NULL)
 
 			// Condition: Pawn threat found
-			if (this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[4])
+			if (this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[PAWN_INDEX])
 				return true;
 
 		// Checking other possible Pawn threat position:
-		candidateMove.setColumn(kingPos.getColumn() + 1);
+		candidateMove.setColumn(kingPos.getColumn() + PAWN_DIFFERENCE);
 	}
 
 	return false;

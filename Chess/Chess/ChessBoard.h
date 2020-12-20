@@ -17,7 +17,18 @@ using std::string;
 #define BOARD_SIZE 8
 
 #define EMPTY_SPACE '#'
-#define STARTING_PLAYER '0'
+
+#define MOVE_DIFFERENCE 1
+
+#define QUEEN_INDEX 0
+#define ROOK_INDEX 1
+#define BISHOP_INDEX 2
+#define KNIGHT_INDEX 3
+#define PAWN_INDEX 4
+#define KING_INDEX 5
+
+#define POSSIBLE_KNIGHT_THREATS_ARRAY_SIZE 4
+#define POSSIBLE_PAWN_THREATS 2
 
 class ChessBoard
 {
@@ -29,7 +40,6 @@ public:
 	~ChessBoard();
 
 	// General Methods:
-	string toString() const;
 	void printBoard();
 
 	// Chess Methods:

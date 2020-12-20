@@ -2,6 +2,9 @@
 
 #include "ChessPiece.h"
 
+#define KNIGHT_DIFFERENCE_1 1
+#define KNIGHT_DIFFERENCE_2 2
+
 class Knight : public ChessPiece
 {
 public:

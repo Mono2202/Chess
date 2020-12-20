@@ -7,10 +7,26 @@ using std::cout;
 using std::endl;
 using std::string;
 
+#define MESSAGE_SIZE 1024
+#define TRY_CONNECTION_AGAIN "0"
+#define FIVE_SECONDS 5000
+#define QUIT_GAME_LOOP "quit"
+
+#define SRC_COLUMN 0
+#define SRC_ROW 1
+#define DEST_COLUMN 2
+#define DEST_ROW 3
+
+#define ZERO_ASCII '0'
+#define LOWERCASE_A_ASCII 'a'
+
+#define MOVE_CODE_INDEX 0
+#define NULL_TERMINATOR_INDEX 1
+
 void main()
 {
 	// Starting board string:
-	char startingBoard[1024] = "rnbqkbnrpppppppp################################PPPPPPPPRNBQKBNR0";
+	char startingBoard[MESSAGE_SIZE] = "rnbqkbnrpppppppp################################PPPPPPPPRNBQKBNR0";
 
 	// Creating the board:
 	ChessBoard board(startingBoard);
@@ -20,19 +36,20 @@ void main()
 	bool isConnect = p.connect();
 
 	// Pipe connection error handling:
-	string ans = "";
+	string userChoice = "";
 	while (!isConnect)
 	{
 		// User instructions:
-		cout << "cant connect to graphics" << endl;
-		cout << "Do you try to connect again or exit? (0-try again, 1-exit)" << endl;
-		std::cin >> ans;
+		cout << "Unable to connect to frontend..." << endl;
+		cout << "0. Try Again" << endl;
+		cout << "1. Exit" << endl;
+		std::cin >> userChoice;
 
 		// Condition: trying to connect to frontend again
-		if (ans == "0")
+		if (userChoice == TRY_CONNECTION_AGAIN)
 		{
-			cout << "trying connect again.." << endl;
-			Sleep(5000);
+			cout << endl << "Trying to Reconnect..." << endl;
+			Sleep(FIVE_SECONDS);
 			isConnect = p.connect();
 		}
 
@@ -45,7 +62,7 @@ void main()
 	}
 
 	// Sending the starting board message to the frontend:
-	char msgToGraphics[1024];
+	char msgToGraphics[MESSAGE_SIZE];
 	strcpy_s(msgToGraphics, startingBoard);
 	p.sendMessageToGraphics(msgToGraphics); 
 
@@ -59,30 +76,32 @@ void main()
 	bool isWhite = true;
 
 	// Game loop:
-	while (msgFromGraphics != "quit")
+	while (msgFromGraphics != QUIT_GAME_LOOP)
 	{
 		// Printing the board:
 		board.printBoard();
 
 		// Calculating the current board positions:
-		srcPos.setRow(BOARD_SIZE - (msgFromGraphics[1] - '0'));
-		srcPos.setColumn(msgFromGraphics[0] - 'a');
-		destPos.setRow(BOARD_SIZE - (msgFromGraphics[3] - '0'));
-		destPos.setColumn(msgFromGraphics[2] - 'a');
+		srcPos.setRow(BOARD_SIZE - (msgFromGraphics[SRC_ROW] - ZERO_ASCII));
+		srcPos.setColumn(msgFromGraphics[SRC_COLUMN] - LOWERCASE_A_ASCII);
+		destPos.setRow(BOARD_SIZE - (msgFromGraphics[DEST_ROW] - ZERO_ASCII));
+		destPos.setColumn(msgFromGraphics[DEST_COLUMN] - LOWERCASE_A_ASCII);
 
 		// Getting the Move Code:
 		moveCode = board.moveCheck(srcPos, destPos, isWhite);
 
 		// Condition: valid move, update board and current player
-		if (moveCode == "0" || moveCode == "1" || moveCode == "8") // TODO: Change to 1 condition
+		if (moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE) ||
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) ||
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECKMATE))
 		{
 			board.updateBoard(srcPos, destPos);
 			isWhite = !isWhite;
 		}
 
 		// Building the message to the frontend:
-		msgToGraphics[0] = moveCode[0];
-		msgToGraphics[1] = 0;
+		msgToGraphics[MOVE_CODE_INDEX] = moveCode[MOVE_CODE_INDEX];
+		msgToGraphics[NULL_TERMINATOR_INDEX] = 0;
 
 		// Sending the Move Code to the frontend:		
 		p.sendMessageToGraphics(msgToGraphics);
@@ -94,5 +113,3 @@ void main()
 	// Closing the pipe:
 	p.close();
 }
-
-// TODO: #define EVERYTHING

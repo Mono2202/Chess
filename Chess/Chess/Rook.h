@@ -2,6 +2,8 @@
 
 #include "ChessPiece.h"
 
+#define ROOK_DIFFERENCE 1
+
 class Rook : public ChessPiece
 {
 public:
