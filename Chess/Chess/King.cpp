@@ -4,12 +4,22 @@
 
 // Constructors:
 
-King::King(const char pieceType) : ChessPiece(pieceType) { }
+King::King(const char pieceType) : ChessPiece(pieceType) { this->_canCastle = true; }
 
 
 // Destructors:
 
-King::~King() { }
+King::~King() { this->_canCastle = false; }
+
+
+// Getters:
+
+bool King::getCanCastle() const { return this->_canCastle; }
+
+
+// Setters:
+
+void King::setCanCastle(bool updatedCanCastle) { this->_canCastle = updatedCanCastle; }
 
 
 // Virtual Functions:
@@ -38,5 +48,9 @@ bool King::move(const BoardPosition& srcPos, const BoardPosition& destPos, Chess
 	if (abs(srcPos.getRow() - destPos.getRow()) > KING_DIFFERENCE || abs(srcPos.getColumn() - destPos.getColumn()) > KING_DIFFERENCE)
 		isValidMove = false;
 	
+	// Condition: cannot Castle
+	if (this->_canCastle)
+		this->_canCastle = false;
+
 	return isValidMove;
 }
