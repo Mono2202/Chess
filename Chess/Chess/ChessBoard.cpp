@@ -318,7 +318,6 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 
 		else
 		{
-			
 			// Condition: Rook is in Castle position
 			if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn() + castleMoves * difference]->getPieceType()) == 'R')
 				
