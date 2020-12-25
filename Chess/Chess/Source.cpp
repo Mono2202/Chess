@@ -93,7 +93,8 @@ void main()
 		// Condition: valid move, update board and current player
 		if (moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) ||
-			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECKMATE))
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECKMATE) ||
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE))
 		{
 			board.updateBoard(srcPos, destPos);
 			isWhite = !isWhite;
