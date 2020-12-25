@@ -11,7 +11,7 @@ public:
 	// Constructors:
 	Knight(char pieceType);
 	
-	// Deconstructors:
+	// Destructors:
 	~Knight();
 
 	// Virtual Functions:

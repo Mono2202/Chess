@@ -9,7 +9,7 @@ public:
 	BoardPosition();
 	BoardPosition(int row, int column);
 
-	// Deconstructors:
+	// Destructors:
 	~BoardPosition();
 
 	// Getters:

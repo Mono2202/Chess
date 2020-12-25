@@ -13,7 +13,7 @@ public:
 	// Constructors:
 	Pawn(char pieceType);
 	
-	// Deconstructors:
+	// Destructors:
 	~Pawn();
 
 	// Virtual Functions:

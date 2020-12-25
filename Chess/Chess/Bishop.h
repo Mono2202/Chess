@@ -10,7 +10,7 @@ public:
 	// Constructors:
 	Bishop(char pieceType);
 	
-	// Deconstructors:
+	// Destructors:
 	~Bishop();
 
 	// Virtual Functions:

@@ -17,7 +17,7 @@ BoardPosition::BoardPosition(int row, int column)
 }
 
 
-// Deconstructors:
+// Destructors:
 
 BoardPosition::~BoardPosition()
 {

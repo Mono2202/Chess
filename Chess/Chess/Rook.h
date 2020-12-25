@@ -10,7 +10,7 @@ public:
 	// Constructors:
 	Rook(char pieceType);
 	
-	// Deconstructors:
+	// Destructors:
 	~Rook();
 
 	// Virtual Functions:

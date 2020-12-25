@@ -10,7 +10,7 @@ public:
 	// Constructors:
 	Queen(char pieceType);
 	
-	// Deconstructors:
+	// Destructors:
 	~Queen();
 
 	// Virtual Functions:

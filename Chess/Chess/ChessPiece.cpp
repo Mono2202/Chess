@@ -10,9 +10,12 @@ ChessPiece::ChessPiece(char pieceType)
 }
 
 
-// Deconstructors:
+// Destructors:
 
-ChessPiece::~ChessPiece() { }
+ChessPiece::~ChessPiece()
+{
+	this->_pieceType = 0;
+}
 
 
 // Getters:

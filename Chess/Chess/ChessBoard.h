@@ -36,7 +36,7 @@ public:
 	// Constructors:
 	ChessBoard(string startingBoard);
 
-	// Deconstructors:
+	// Destructors:
 	~ChessBoard();
 
 	// General Methods:
