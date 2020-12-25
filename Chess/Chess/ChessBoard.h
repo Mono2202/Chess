@@ -34,8 +34,8 @@ using std::string;
 #define POSSIBLE_PAWN_THREATS 2
 #define POSSIBLE_KING_THREATS_ARRAY_SIZE 3
 
-#define QUEEN_SIDE_CASTLE 2
-#define KING_SIDE_CASTLE 3
+#define QUEEN_SIDE_CASTLE 3
+#define KING_SIDE_CASTLE 2
 
 class ChessBoard
 {

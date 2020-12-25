@@ -150,17 +150,20 @@ string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& d
 	else if (isChecked(srcPos, destPos, isWhite))
 		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_FRIENDLY_CHECK);
 
-	// Condition: Castling was taking place (Move Code: 9)
-	if (isCastle(srcPos, destPos, isWhite))
-		returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE);
+	// Condition: invalid specific Chess Piece move (Move Code: 6)
+	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE))
+
+		// Condition: Castling was taking place (Move Code: 9)
+		if (isCastle(srcPos, destPos, isWhite))
+			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE);
 
 	// Condition: valid move (Move Code: 0)
-	else if (returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE))
-
+	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE))
+	
 		// Condition: move made check on enemy King (Move Code: 1)
-		returnCode = (isChecked(srcPos, destPos, !isWhite)) ? 
-		MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) : 
-		MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE);
+		if (isChecked(srcPos, destPos, !isWhite))
+			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK);
+	
 
 	return returnCode;
 }
@@ -251,6 +254,18 @@ BoardPosition ChessBoard::getKingPosition(const bool isWhite) const
 	return kingPosition;
 }
 
+/*
+Checks whether a position is threatenend
+
+Input:
+srcPos - the source position
+destPos - the destination position
+isWhite - the current player
+
+Output:
+true - position is threatened
+false - otherwise
+*/
 bool ChessBoard::isThreatened(const BoardPosition& srcPos, const string& possibleEnemyPieces, const bool isWhite)
 {
 	return rowCheck(srcPos, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || rowCheck(srcPos, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
@@ -298,7 +313,18 @@ bool ChessBoard::isChecked(const BoardPosition& srcPos, const BoardPosition& des
 	return checkFlag;
 }
 
+/*
+Checks wheter Castle is possible
 
+Input:
+srcPos - the source position
+destPos - the destination position
+isWhite - the current player
+
+Output:
+true - Castle is possible
+false - otherwise
+*/
 bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
@@ -306,11 +332,16 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 	int castleMoves = (destPos.getColumn() < srcPos.getColumn()) ? QUEEN_SIDE_CASTLE : KING_SIDE_CASTLE;
 	string possibleEnemyPieces = (isWhite) ? BLACK_PIECES : WHITE_PIECES;
 	BoardPosition candidateMove(srcPos.getRow(), srcPos.getColumn());
+	King* currentKing = dynamic_cast<King*>(this->_board[srcPos.getRow()][srcPos.getColumn()]);
+	Rook* currentRook = dynamic_cast<Rook*>(this->_board[srcPos.getRow()][srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference]);
 	int i = 0;
 
+	// Condition: more than 2 King steps were made
+	if (abs(destPos.getColumn() - srcPos.getColumn()) > KING_SIDE_CASTLE)
+		return false;
+
 	// Condition: srcPos has a Chess Piece
-	if (this->_board[srcPos.getRow()][srcPos.getColumn()] != NULL &&
-		this->_board[srcPos.getRow()][srcPos.getColumn() + castleMoves * difference] != NULL)
+	if (this->_board[srcPos.getRow()][srcPos.getColumn()] != NULL)
 	{
 		// Condition: srcPos is not the King's position
 		if (!(srcPos == getKingPosition(isWhite)))
@@ -318,16 +349,33 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 
 		else
 		{
-			// Condition: Rook is in Castle position
-			if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn() + castleMoves * difference]->getPieceType()) == 'R')
-				
-				// Condition: Chess Piece can't Castle
-				if (!((King*)&this->_board[srcPos.getRow()][srcPos.getColumn()])->getCanCastle() ||
-					!((Rook*)&this->_board[srcPos.getRow()][srcPos.getColumn() + castleMoves * difference])->getCanCastle())
-					return false;
-		}
-	}	
+			// Condition: destPos has a Chess Piece
+			if (this->_board[srcPos.getRow()][srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference] != NULL)
+			{
+				// Condition: Rook is in Castle position
+				if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference]->getPieceType()) == 'R')
+				{
+					// Condition: Chess Piece can't Castle
+					if (!currentKing->getCanCastle() || !currentRook->getCanCastle())
+						return false;
+				}
 
+				// Condition: Rook is not in Castle position
+				else
+					return false;
+					
+			}
+
+			// Condition: destPos doesn't have a Chess Piece
+			else
+				return false;
+				
+		}
+	}
+
+	// Condition: srcPos doesn't have a Chess Piece
+	else
+		return false;
 
 	// Checking whether Castling is possible:
 	for (i = 1; i <= castleMoves; i++)
@@ -337,10 +385,11 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 
 		// Condition: empty spot
 		if (this->_board[candidateMove.getRow()][candidateMove.getColumn()] == NULL)
-
+		{
 			// Condition: Chess Piece at candidate move positions is threatend
 			if (i <= KING_SIDE_CASTLE && isThreatened(candidateMove, possibleEnemyPieces, isWhite))
 				return false;
+		}
 		
 		// Condition: spot with Chess Piece
 		else
@@ -348,11 +397,11 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 	}
 
 	// Setting the canCastle flag:
-	((King*)&this->_board[srcPos.getRow()][srcPos.getColumn()])->setCanCastle(false);
-	((Rook*)&this->_board[srcPos.getRow()][srcPos.getColumn() + castleMoves * difference])->setCanCastle(false);
+	currentKing->setCanCastle(false);
+	currentRook->setCanCastle(false);
 
 	// Moving the Rook and updating the board:
-	updateBoard(BoardPosition(srcPos.getRow(), srcPos.getColumn() + castleMoves * difference), BoardPosition(srcPos.getRow(), srcPos.getColumn() + difference));
+	updateBoard(BoardPosition(srcPos.getRow(), srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference), BoardPosition(srcPos.getRow(), srcPos.getColumn() + difference));
 
 	return true;
 }
