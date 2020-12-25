@@ -26,5 +26,6 @@ string MoveCodes::ToString(int code)
 		case MoveCodes::ERROR_INVALID_MOVE:				return "6";
 		case MoveCodes::ERROR_SRC_IS_DEST:				return "7";
 		case MoveCodes::VALID_CHECKMATE:				return "8";
+		case MoveCodes::VALID_CASTLE:					return "9";
 	}
 }
