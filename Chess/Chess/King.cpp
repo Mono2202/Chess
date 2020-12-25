@@ -4,7 +4,7 @@
 
 // Constructors:
 
-King::King(char pieceType) : ChessPiece(pieceType) { }
+King::King(const char pieceType) : ChessPiece(pieceType) { }
 
 
 // Destructors:
@@ -14,7 +14,7 @@ King::~King() { }
 
 // Virtual Functions:
 
-bool King::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite)
+bool King::move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite)
 {
 	// Inits:
 	int diffRow = 0, diffCol = 0;

@@ -4,7 +4,7 @@
 
 // Constructors:
 
-Bishop::Bishop(char pieceType) : ChessPiece(pieceType) { }
+Bishop::Bishop(const char pieceType) : ChessPiece(pieceType) { }
 
 
 // Destructors:
@@ -14,7 +14,7 @@ Bishop::~Bishop() { }
 
 // Virtual Functions:
 
-bool Bishop::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite)
+bool Bishop::move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite)
 {
 	// Inits:
 	int diffRow = 0, diffCol = 0;

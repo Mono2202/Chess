@@ -34,34 +34,32 @@ class ChessBoard
 {
 public:
 	// Constructors:
-	ChessBoard(string startingBoard);
+	ChessBoard(const string& startingBoard);
 
 	// Destructors:
 	~ChessBoard();
 
 	// General Methods:
-	void printBoard();
+	void printBoard() const;
 
 	// Chess Methods:
-	string moveCheck(BoardPosition srcPos, BoardPosition destPos, bool isWhite);
-	void updateBoard(BoardPosition srcPos, BoardPosition destPos);
+	string moveCheck(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
+	void updateBoard(const BoardPosition& srcPos, const BoardPosition& destPos);
 
 private:
 	// Fields:
 	ChessPiece* _board[BOARD_SIZE][BOARD_SIZE];
 
 	// Helper Methods:
-	void addPiece(char pieceType, BoardPosition position);
-	BoardPosition getKingPosition(bool isWhite);
-	bool isChecked(BoardPosition srcPos, BoardPosition destPos, bool isWhite);
+	void addPiece(const char pieceType, const BoardPosition& position);
+	BoardPosition getKingPosition(const bool isWhite) const;
+	bool isChecked(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
 
 	// isChecked Helper Methods:
-	bool rowCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
-	bool columnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
-	bool mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
-	bool secondaryDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference);
-	bool knightCheck(BoardPosition kingPos, string possibleEnemyPieces);
-	bool pawnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite);
+	bool rowCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
+	bool columnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
+	bool mainDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
+	bool secondaryDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
+	bool knightCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces);
+	bool pawnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite);
 };
-
-// TODO?: operator[]

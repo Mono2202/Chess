@@ -4,7 +4,7 @@
 
 // Constructors:
 
-ChessBoard::ChessBoard(string startingBoard)
+ChessBoard::ChessBoard(const string& startingBoard)
 {
 	// Inits:
 	int row = 0, column = 0;
@@ -54,7 +54,7 @@ ChessBoard::~ChessBoard()
 
 // General Methods:
 
-void ChessBoard::printBoard()
+void ChessBoard::printBoard() const
 {
 	// Inits:
 	int row = 0, column = 0;
@@ -81,7 +81,7 @@ void ChessBoard::printBoard()
 
 // Chess Methods:
 
-string ChessBoard::moveCheck(BoardPosition srcPos, BoardPosition destPos, bool isWhite)
+string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
 	string returnCode = "0";
@@ -110,7 +110,7 @@ string ChessBoard::moveCheck(BoardPosition srcPos, BoardPosition destPos, bool i
 
 	// Condition: move will lead to Check on the friendly King (Move Code: 4)
 	else if (isChecked(srcPos, destPos, isWhite))
-		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_FRIENDLY_CHECK);  // TODO: MOVE AFTER SPECIFIC MOVES CHECK
+		returnCode = MoveCodes::ToString(MoveCodes::CODES::ERROR_FRIENDLY_CHECK);
 
 	// Condition: valid move (Move Code: 0)
 	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE))
@@ -123,7 +123,7 @@ string ChessBoard::moveCheck(BoardPosition srcPos, BoardPosition destPos, bool i
 	return returnCode;
 }
 
-void ChessBoard::updateBoard(BoardPosition srcPos, BoardPosition destPos)
+void ChessBoard::updateBoard(const BoardPosition& srcPos, const BoardPosition& destPos)
 {
 	// Condition: deleting the chess piece
 	if (this->_board[destPos.getRow()][destPos.getColumn()] != NULL)
@@ -139,7 +139,7 @@ void ChessBoard::updateBoard(BoardPosition srcPos, BoardPosition destPos)
 
 // Helper Methods:
 
-void ChessBoard::addPiece(char pieceType, BoardPosition position)
+void ChessBoard::addPiece(const char pieceType, const BoardPosition& position)
 {
 	// Creating the proper chess piece:
 	switch (toupper(pieceType))
@@ -153,7 +153,7 @@ void ChessBoard::addPiece(char pieceType, BoardPosition position)
 	}
 }
 
-BoardPosition ChessBoard::getKingPosition(bool isWhite)
+BoardPosition ChessBoard::getKingPosition(const bool isWhite) const
 {
 	// Inits:
 	BoardPosition kingPosition;
@@ -179,10 +179,10 @@ BoardPosition ChessBoard::getKingPosition(bool isWhite)
 	return kingPosition;
 }
 
-bool ChessBoard::isChecked(BoardPosition srcPos, BoardPosition destPos, bool isWhite)
+bool ChessBoard::isChecked(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
-	string possibleEnemyPieces = (isWhite) ? "qrbnpk" : "QRBNPK"; // TODO: #define indexes
+	string possibleEnemyPieces = (isWhite) ? "qrbnpk" : "QRBNPK";
 	ChessPiece* tempChessPiece;
 	BoardPosition kingPosition;
 	bool checkFlag = false;
@@ -212,7 +212,7 @@ bool ChessBoard::isChecked(BoardPosition srcPos, BoardPosition destPos, bool isW
 
 // isChecked Helper Methods:
 
-bool ChessBoard::rowCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference)
+bool ChessBoard::rowCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
 	char currentChessPiece = '0';
@@ -241,7 +241,7 @@ bool ChessBoard::rowCheck(BoardPosition kingPos, string possibleEnemyPieces, boo
 	return false;
 }
 
-bool ChessBoard::columnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference)
+bool ChessBoard::columnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
 	char currentChessPiece = '0';
@@ -270,7 +270,7 @@ bool ChessBoard::columnCheck(BoardPosition kingPos, string possibleEnemyPieces, 
 	return false;
 }
 
-bool ChessBoard::mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference)
+bool ChessBoard::mainDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
 	char currentChessPiece = '0';
@@ -301,7 +301,7 @@ bool ChessBoard::mainDiagonalCheck(BoardPosition kingPos, string possibleEnemyPi
 	return false;
 }
 
-bool ChessBoard::secondaryDiagonalCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite, int difference)
+bool ChessBoard::secondaryDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
 	char currentChessPiece = '0';
@@ -332,7 +332,7 @@ bool ChessBoard::secondaryDiagonalCheck(BoardPosition kingPos, string possibleEn
 	return false;
 }
 
-bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
+bool ChessBoard::knightCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces)
 {
 	// Inits:
 	BoardPosition candidateMove(kingPos.getRow(), kingPos.getColumn());
@@ -364,7 +364,7 @@ bool ChessBoard::knightCheck(BoardPosition kingPos, string possibleEnemyPieces)
 	return false;
 }
 
-bool ChessBoard::pawnCheck(BoardPosition kingPos, string possibleEnemyPieces, bool isWhite)
+bool ChessBoard::pawnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite)
 {
 	// Inits:
 	int moveDirection = (isWhite) ? -PAWN_DIFFERENCE : PAWN_DIFFERENCE;

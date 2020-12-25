@@ -21,10 +21,10 @@ public:
 	void setColumn(int column);
 
 	// Operators:
-	bool operator==(const BoardPosition& otherPos);
+	bool operator==(const BoardPosition& otherPos) const;
 
 	// Methods:
-	bool isOutOfBounds();
+	bool isOutOfBounds() const;
 
 private:
 	// Fields:

@@ -4,7 +4,7 @@
 
 // Constructors:
 
-Pawn::Pawn(char pieceType) : ChessPiece(pieceType) { this->_hasMoved = false; }
+Pawn::Pawn(const char pieceType) : ChessPiece(pieceType) { this->_hasMoved = false; }
 
 
 // Destructors:
@@ -14,7 +14,7 @@ Pawn::~Pawn() { this->_hasMoved = false; }
 
 // Virtual Functions:
 
-bool Pawn::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite)
+bool Pawn::move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite)
 {
 	// Inits:
 	int moveDirection = (isWhite) ? -PAWN_DIFFERENCE : PAWN_DIFFERENCE;

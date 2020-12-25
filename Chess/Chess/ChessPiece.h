@@ -15,7 +15,7 @@ class ChessPiece
 {
 public:
 	// Constructors:
-	ChessPiece(char pieceType);
+	ChessPiece(const char pieceType);
 
 	// Destructors:
 	~ChessPiece();
@@ -24,7 +24,7 @@ public:
 	char getPieceType() const;
 
 	// Pure Virtual Functions:
-	virtual bool move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite) = 0;
+	virtual bool move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite) = 0;
 
 private:
 	// Fields:

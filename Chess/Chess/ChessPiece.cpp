@@ -4,7 +4,7 @@
 
 // Constructors:
 
-ChessPiece::ChessPiece(char pieceType)
+ChessPiece::ChessPiece(const char pieceType)
 {
 	this->_pieceType = pieceType;
 }

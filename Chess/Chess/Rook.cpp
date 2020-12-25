@@ -4,7 +4,7 @@
 
 // Constructors:
 
-Rook::Rook(char pieceType) : ChessPiece(pieceType) { }
+Rook::Rook(const char pieceType) : ChessPiece(pieceType) { }
 
 
 // Destructors:
@@ -14,7 +14,7 @@ Rook::~Rook() { }
 
 // Virtual Functions:
 
-bool Rook::move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite)
+bool Rook::move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite)
 {
 	// Inits:
 	int diffRow = 0, diffCol = 0;

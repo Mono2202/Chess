@@ -8,11 +8,11 @@ class Queen : public ChessPiece
 {
 public:
 	// Constructors:
-	Queen(char pieceType);
+	Queen(const char pieceType);
 	
 	// Destructors:
 	~Queen();
 
 	// Virtual Functions:
-	virtual bool move(BoardPosition srcPos, BoardPosition destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], bool isWhite);
+	virtual bool move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite);
 };
