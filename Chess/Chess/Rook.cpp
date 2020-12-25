@@ -67,7 +67,7 @@ bool Rook::move(const BoardPosition& srcPos, const BoardPosition& destPos, Chess
 	}
 	
 	// Condition: cannot Castle
-	if (this->_canCastle)
+	if (isValidMove && this->_canCastle)
 		this->_canCastle = false;
 	
 	return isValidMove;

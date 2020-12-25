@@ -49,7 +49,7 @@ bool King::move(const BoardPosition& srcPos, const BoardPosition& destPos, Chess
 		isValidMove = false;
 	
 	// Condition: cannot Castle
-	if (this->_canCastle)
+	if (isValidMove && this->_canCastle)
 		this->_canCastle = false;
 
 	return isValidMove;
