@@ -14,6 +14,19 @@ Rook::~Rook() { }
 
 // Virtual Functions:
 
+/*
+Checks Rook movement validity
+
+Input:
+srcPos - the source position
+destPos - the destination position
+board - the chess board
+isWhite - the current player
+
+Output:
+isValidMove - true - the move is valid
+			  false - otherwise
+*/
 bool Rook::move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite)
 {
 	// Inits:

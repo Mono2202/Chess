@@ -62,6 +62,16 @@ bool BoardPosition::operator==(const BoardPosition& otherPos) const
 
 // Methods:
 
+/*
+Checks whether the BoardPosition is out of bounds
+
+Input:
+None
+
+Output:
+true - the BoardPosition is out of bounds
+false - otherwise
+*/
 bool BoardPosition::isOutOfBounds() const
 {
 	return this->_row < 0 || this->_row >= BOARD_SIZE || this->_column < 0 || this->_column >= BOARD_SIZE;

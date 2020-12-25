@@ -4,6 +4,15 @@
 
 // Constructors:
 
+/*
+Builds the ChessBoard object using the startingBoard string
+
+Input:
+startingBoard - the starting board string
+
+Output:
+None
+*/
 ChessBoard::ChessBoard(const string& startingBoard)
 {
 	// Inits:
@@ -32,6 +41,15 @@ ChessBoard::ChessBoard(const string& startingBoard)
 
 // Destructors:
 
+/*
+Clearing the chess board from the ChessPiece objects
+
+Input:
+None
+
+Output:
+None
+*/
 ChessBoard::~ChessBoard()
 {
 	// Inits:
@@ -54,6 +72,15 @@ ChessBoard::~ChessBoard()
 
 // General Methods:
 
+/*
+Prints the current chess board
+
+Input:
+None
+
+Output:
+None
+*/
 void ChessBoard::printBoard() const
 {
 	// Inits:
@@ -81,6 +108,17 @@ void ChessBoard::printBoard() const
 
 // Chess Methods:
 
+/*
+Checks general movement validity
+
+Input:
+srcPos - the source position
+destPos - the destination position
+isWhite - the current player
+
+Output:
+returnCode - according to the check results
+*/
 string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
@@ -123,6 +161,16 @@ string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& d
 	return returnCode;
 }
 
+/*
+Updates the chess board
+
+Input:
+srcPos - the source position
+destPos - the destination position
+
+Output:
+None
+*/
 void ChessBoard::updateBoard(const BoardPosition& srcPos, const BoardPosition& destPos)
 {
 	// Condition: deleting the chess piece
@@ -139,6 +187,17 @@ void ChessBoard::updateBoard(const BoardPosition& srcPos, const BoardPosition& d
 
 // Helper Methods:
 
+/*
+Adds a ChessPiece object to the chess board
+according to the proper chess piece type
+
+Input:
+pieceType - the chess piece type
+position - chess piece's board position
+
+Output:
+None
+*/
 void ChessBoard::addPiece(const char pieceType, const BoardPosition& position)
 {
 	// Creating the proper chess piece:
@@ -153,6 +212,15 @@ void ChessBoard::addPiece(const char pieceType, const BoardPosition& position)
 	}
 }
 
+/*
+Gets the King's current position
+
+Input:
+isWhite - the King to search for
+
+Output:
+kingPosition - the King's current postion
+*/
 BoardPosition ChessBoard::getKingPosition(const bool isWhite) const
 {
 	// Inits:
@@ -179,6 +247,18 @@ BoardPosition ChessBoard::getKingPosition(const bool isWhite) const
 	return kingPosition;
 }
 
+/*
+Checks whether the King is checked
+
+Input:
+srcPos - the source position
+destPos - the destination position
+isWhite - the King to check
+
+Output:
+checkFlag - true - the King is checked
+			false - otherwise
+*/
 bool ChessBoard::isChecked(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
@@ -212,6 +292,19 @@ bool ChessBoard::isChecked(const BoardPosition& srcPos, const BoardPosition& des
 
 // isChecked Helper Methods:
 
+/*
+Checks for check in the King's row
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
 bool ChessBoard::rowCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
@@ -241,6 +334,19 @@ bool ChessBoard::rowCheck(const BoardPosition& kingPos, const string& possibleEn
 	return false;
 }
 
+/*
+Checks for check in the King's column
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
 bool ChessBoard::columnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
@@ -270,6 +376,19 @@ bool ChessBoard::columnCheck(const BoardPosition& kingPos, const string& possibl
 	return false;
 }
 
+/*
+Checks for check in the King's main diagonal
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
 bool ChessBoard::mainDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
@@ -301,6 +420,19 @@ bool ChessBoard::mainDiagonalCheck(const BoardPosition& kingPos, const string& p
 	return false;
 }
 
+/*
+Checks for check in the King's secondary diagonal
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
 bool ChessBoard::secondaryDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference)
 {
 	// Inits:
@@ -332,6 +464,19 @@ bool ChessBoard::secondaryDiagonalCheck(const BoardPosition& kingPos, const stri
 	return false;
 }
 
+/*
+Checks for check in the King's Knight positions
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
 bool ChessBoard::knightCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces)
 {
 	// Inits:
@@ -364,6 +509,19 @@ bool ChessBoard::knightCheck(const BoardPosition& kingPos, const string& possibl
 	return false;
 }
 
+/*
+Checks for check in the King's Pawn positions
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
 bool ChessBoard::pawnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite)
 {
 	// Inits:
