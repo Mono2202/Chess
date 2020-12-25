@@ -4,12 +4,22 @@
 
 // Constructors:
 
-Rook::Rook(const char pieceType) : ChessPiece(pieceType) { }
+Rook::Rook(const char pieceType) : ChessPiece(pieceType) { this->_canCastle = true; }
 
 
 // Destructors:
 
-Rook::~Rook() { }
+Rook::~Rook() { this->_canCastle = false; }
+
+
+// Getters:
+
+bool Rook::getCanCastle() const { return this->_canCastle; }
+
+
+// Setters:
+
+void Rook::setCanCastle(bool updatedCanCastle) { this->_canCastle = updatedCanCastle; }
 
 
 // Virtual Functions:
@@ -55,6 +65,10 @@ bool Rook::move(const BoardPosition& srcPos, const BoardPosition& destPos, Chess
 		if (board[row][column] != NULL)
 			isValidMove = false;
 	}
+	
+	// Condition: cannot Castle
+	if (this->_canCastle)
+		this->_canCastle = false;
 	
 	return isValidMove;
 }
