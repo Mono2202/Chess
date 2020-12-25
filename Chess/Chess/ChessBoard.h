@@ -20,6 +20,9 @@ using std::string;
 
 #define MOVE_DIFFERENCE 1
 
+#define BLACK_PIECES "qrbnpk"
+#define WHITE_PIECES "QRBNPK"
+
 #define QUEEN_INDEX 0
 #define ROOK_INDEX 1
 #define BISHOP_INDEX 2

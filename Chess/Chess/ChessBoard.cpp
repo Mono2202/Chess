@@ -262,7 +262,7 @@ checkFlag - true - the King is checked
 bool ChessBoard::isChecked(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
-	string possibleEnemyPieces = (isWhite) ? "qrbnpk" : "QRBNPK";
+	string possibleEnemyPieces = (isWhite) ? BLACK_PIECES : WHITE_PIECES;
 	ChessPiece* tempChessPiece;
 	BoardPosition kingPosition;
 	bool checkFlag = false;
