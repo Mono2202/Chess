@@ -280,7 +280,7 @@ bool ChessBoard::isChecked(const BoardPosition& srcPos, const BoardPosition& des
 		columnCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || columnCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
 		mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || mainDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
 		secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, MOVE_DIFFERENCE) || secondaryDiagonalCheck(kingPosition, possibleEnemyPieces, isWhite, -MOVE_DIFFERENCE) ||
-		knightCheck(kingPosition, possibleEnemyPieces) || pawnCheck(kingPosition, possibleEnemyPieces, isWhite); // TODO: KING THREAT CHECK
+		knightCheck(kingPosition, possibleEnemyPieces) || pawnCheck(kingPosition, possibleEnemyPieces, isWhite) || kingCheck(kingPosition, possibleEnemyPieces);
 
 	// Un-doing the board update:
 	this->_board[srcPos.getRow()][srcPos.getColumn()] = this->_board[destPos.getRow()][destPos.getColumn()];
@@ -540,6 +540,48 @@ bool ChessBoard::pawnCheck(const BoardPosition& kingPos, const string& possibleE
 
 		// Checking other possible Pawn threat position:
 		candidateMove.setColumn(kingPos.getColumn() + PAWN_DIFFERENCE);
+	}
+
+	return false;
+}
+
+/*
+Checks for check in the King's King positions
+
+Input:
+kingPos - the King's current position
+possibleEnemyPieces - string of enemy pieces
+isWhite - the current player
+difference - the check difference
+
+Output:
+true - check was found
+false - otherwise
+*/
+bool ChessBoard::kingCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces)
+{
+	// Inits:
+	BoardPosition candidateMove(kingPos.getRow(), kingPos.getColumn());
+	int diffArray[POSSIBLE_KING_THREATS_ARRAY_SIZE] = { 0, KING_DIFFERENCE, -KING_DIFFERENCE };
+	int i = 0, j = 0;
+
+	// Checking for King threat:
+	for (i = 0; i < POSSIBLE_KING_THREATS_ARRAY_SIZE; i++)
+	{
+		for (j = 0; j < POSSIBLE_KING_THREATS_ARRAY_SIZE; j++)
+		{
+			// Setting the new position to check for King in:
+			candidateMove.setRow(kingPos.getRow() + diffArray[i]);
+			candidateMove.setColumn(kingPos.getColumn() + diffArray[j]);
+
+			// Condition: Chess Piece is not out of bounds and exists
+			if (!candidateMove.isOutOfBounds() && this->_board[candidateMove.getRow()][candidateMove.getColumn()] != NULL)
+
+				// Condition: Knight threat found
+				if (this->_board[candidateMove.getRow()][candidateMove.getColumn()]->getPieceType() == possibleEnemyPieces[KING_INDEX])
+					return true;
+			
+		}
 	}
 
 	return false;

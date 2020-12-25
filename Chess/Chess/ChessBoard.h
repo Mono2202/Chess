@@ -29,6 +29,7 @@ using std::string;
 
 #define POSSIBLE_KNIGHT_THREATS_ARRAY_SIZE 4
 #define POSSIBLE_PAWN_THREATS 2
+#define POSSIBLE_KING_THREATS_ARRAY_SIZE 3
 
 class ChessBoard
 {
@@ -62,4 +63,5 @@ private:
 	bool secondaryDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
 	bool knightCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces);
 	bool pawnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite);
+	bool kingCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces);
 };
