@@ -16,10 +16,17 @@ public:
 	// Destructors:
 	~Pawn();
 
+	// Getters:
+	bool getIsEnPassant() const;
+
+	// Setters:
+	void setIsEnPassant(bool flag);
+
 	// Virtual Functions:
 	virtual bool move(const BoardPosition& srcPos, const BoardPosition& destPos, ChessPiece* board[BOARD_SIZE][BOARD_SIZE], const bool isWhite);
 
 private:
 	// Fields:
 	bool _hasMoved;
+	bool _isEnPassant;
 };

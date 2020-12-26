@@ -4,7 +4,21 @@
 
 // Constructors:
 
-Pawn::Pawn(const char pieceType) : ChessPiece(pieceType) { this->_hasMoved = false; }
+Pawn::Pawn(const char pieceType) : ChessPiece(pieceType)
+{
+	this->_hasMoved = false;
+	this->_isEnPassant = false;
+}
+
+
+// Getters:
+
+bool Pawn::getIsEnPassant() const { return this->_isEnPassant; }
+
+
+// Setters:
+
+void Pawn::setIsEnPassant(bool flag) { this->_isEnPassant = flag; }
 
 
 // Destructors:
@@ -42,6 +56,9 @@ bool Pawn::move(const BoardPosition& srcPos, const BoardPosition& destPos, Chess
 	{
 		isValidMove = true;
 		this->_hasMoved = true;
+
+		if ((destPos.getRow() - srcPos.getRow()) * moveDirection == STARTING_PAWN_MOVE)
+			this->_isEnPassant = true;
 	}
 	
 	// Condition: not first Pawn move
