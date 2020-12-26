@@ -26,7 +26,7 @@ ChessBoard::ChessBoard(const string& startingBoard)
 			// Condition: chess piece to create
 			if (startingBoard[row * BOARD_SIZE + column] != EMPTY_SPACE)
 			{
-				this->addPiece(startingBoard[row * BOARD_SIZE + column], BoardPosition(row, column));
+				addPiece(startingBoard[row * BOARD_SIZE + column], BoardPosition(row, column));
 			}
 
 			// Condition: empty spot
@@ -170,6 +170,10 @@ string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& d
 		returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||
 		returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT))
 	{
+		// Condition: Promotion was taking place (Move Code: 11)
+		if (isPromotion(srcPos, destPos, isWhite))
+			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_PROMOTION);
+		
 		// Condition: move made check on enemy King (Move Code: 1)
 		if (isChecked(srcPos, destPos, !isWhite))
 			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK);
@@ -245,7 +249,7 @@ BoardPosition ChessBoard::getKingPosition(const bool isWhite) const
 {
 	// Inits:
 	BoardPosition kingPosition;
-	char kingToFind = (isWhite) ? 'K' : 'k';
+	char kingToFind = (isWhite) ? WHITE_PIECES[KING_INDEX] : BLACK_PIECES[KING_INDEX];
 	bool found = false;
 	int i = 0, j = 0;
 
@@ -366,7 +370,7 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 			if (this->_board[srcPos.getRow()][srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference] != NULL)
 			{
 				// Condition: Rook is in Castle position
-				if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference]->getPieceType()) == 'R')
+				if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn() + (castleMoves + MOVE_DIFFERENCE) * difference]->getPieceType()) == WHITE_PIECES[ROOK_INDEX])
 				{
 					// Condition: Chess Piece can't Castle
 					if (!currentKing->getCanCastle() || !currentRook->getCanCastle())
@@ -438,7 +442,7 @@ bool ChessBoard::isEnPassant(const BoardPosition& srcPos, const BoardPosition& d
 
 	// Condition: En-Passant Pawn exists and attacking Chess Piece is a Pawn
 	if (this->_board[destPos.getRow() + direction][destPos.getColumn()] == this->_enPassantPawn &&
-		toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == 'P')
+		toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == WHITE_PIECES[PAWN_INDEX])
 		
 		// Condition: valid diagonal Pawn attack, En-Passant is possible
 		if ((destPos.getRow() - srcPos.getRow()) * direction * -PAWN_DIFFERENCE == DEFAULT_PAWN_MOVE &&
@@ -458,7 +462,7 @@ isWhite - the current player
 Output:
 None
 */
-void ChessBoard::setEnPassant(const BoardPosition& srcPos, bool isWhite)
+void ChessBoard::setEnPassant(const BoardPosition& srcPos, const bool isWhite)
 {
 	// Inits:
 	Pawn* currentPawn;
@@ -475,7 +479,7 @@ void ChessBoard::setEnPassant(const BoardPosition& srcPos, bool isWhite)
 	}
 
 	// Condition: new candidate to En-Passant Pawn
-	if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == 'P')
+	if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == WHITE_PIECES[PAWN_INDEX])
 	{
 		// Casting ChessPiece* as Pawn:
 		currentPawn = dynamic_cast<Pawn*>(this->_board[srcPos.getRow()][srcPos.getColumn()]);
@@ -492,6 +496,38 @@ void ChessBoard::setEnPassant(const BoardPosition& srcPos, bool isWhite)
 		}
 	}
 }
+
+/*
+Checks wheter Promotion is possible
+
+Input:
+srcPos - the source position
+destPos - the destination position
+isWhite - the current player
+
+Output:
+true - Promotion is possible
+false - otherwise
+*/
+bool ChessBoard::isPromotion(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
+{
+	// Inits:
+	int promotionRow = (isWhite) ? WHITE_PROMOTION_ROW : BLACK_PROMOTION_ROW;
+	char queenToPromote = (isWhite) ? WHITE_PIECES[QUEEN_INDEX] : BLACK_PIECES[QUEEN_INDEX];
+
+	// Condition: Promotion was made
+	if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == WHITE_PIECES[PAWN_INDEX] &&
+		destPos.getColumn() == promotionRow)
+	{
+		// Deleting the Pawn object and creating a Queen object instead of it:
+		delete this->_board[srcPos.getRow()][srcPos.getColumn()];
+		addPiece(queenToPromote, destPos);
+		return true;
+	}
+
+	return false;
+}
+
 
 // isChecked Helper Methods:
 

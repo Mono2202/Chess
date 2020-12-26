@@ -37,6 +37,9 @@ using std::string;
 #define QUEEN_SIDE_CASTLE 3
 #define KING_SIDE_CASTLE 2
 
+#define WHITE_PROMOTION_ROW 0
+#define BLACK_PROMOTION_ROW 7
+
 class ChessBoard
 {
 public:
@@ -64,8 +67,9 @@ private:
 	bool isThreatened(const BoardPosition& srcPos, const string& possibleEnemyPieces, const bool isWhite);
 	bool isChecked(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
 	bool isCastle(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
-	bool isEnPassant(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
-	void setEnPassant(const BoardPosition& srcPos, bool isWhite);
+	bool isEnPassant(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);	
+	void setEnPassant(const BoardPosition& srcPos, const bool isWhite);
+	bool isPromotion(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
 
 	// isChecked Helper Methods:
 	bool rowCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
