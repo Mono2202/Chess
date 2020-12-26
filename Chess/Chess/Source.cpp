@@ -20,8 +20,9 @@ using std::string;
 #define ZERO_ASCII '0'
 #define LOWERCASE_A_ASCII 'a'
 
-#define MOVE_CODE_INDEX 0
-#define NULL_TERMINATOR_INDEX 1
+#define MOVE_CODE_INDEX_0 0
+#define MOVE_CODE_INDEX_1 1
+#define NULL_TERMINATOR_INDEX 2
 
 void main()
 {
@@ -94,14 +95,16 @@ void main()
 		if (moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECKMATE) ||
-			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE))
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT))		// TODO: CHANGE TO ARRAY?
 		{
 			board.updateBoard(srcPos, destPos);
 			isWhite = !isWhite;
 		}
 
 		// Building the message to the frontend:
-		msgToGraphics[MOVE_CODE_INDEX] = moveCode[MOVE_CODE_INDEX];
+		msgToGraphics[MOVE_CODE_INDEX_0] = moveCode[MOVE_CODE_INDEX_0];
+		msgToGraphics[MOVE_CODE_INDEX_1] = moveCode[MOVE_CODE_INDEX_1];
 		msgToGraphics[NULL_TERMINATOR_INDEX] = 0;
 
 		// Sending the Move Code to the frontend:		
