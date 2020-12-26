@@ -197,6 +197,10 @@ None
 */
 void ChessBoard::updateBoard(const BoardPosition& srcPos, const BoardPosition& destPos)
 {
+	// Setting the En-Passant Pawn:
+	if (this->_board[destPos.getRow()][destPos.getColumn()] == this->_enPassantPawn)
+		this->_enPassantPawn = NULL;
+
 	// Condition: deleting the chess piece
 	if (this->_board[destPos.getRow()][destPos.getColumn()] != NULL)
 		delete this->_board[destPos.getRow()][destPos.getColumn()];
@@ -517,11 +521,11 @@ bool ChessBoard::isPromotion(const BoardPosition& srcPos, const BoardPosition& d
 
 	// Condition: Promotion was made
 	if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == WHITE_PIECES[PAWN_INDEX] &&
-		destPos.getColumn() == promotionRow)
+		destPos.getRow() == promotionRow)
 	{
 		// Deleting the Pawn object and creating a Queen object instead of it:
 		delete this->_board[srcPos.getRow()][srcPos.getColumn()];
-		addPiece(queenToPromote, destPos);
+		addPiece(queenToPromote, srcPos);
 		return true;
 	}
 
