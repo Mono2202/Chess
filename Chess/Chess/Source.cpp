@@ -95,8 +95,9 @@ void main()
 		if (moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECKMATE) ||
-			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||
-			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT))		// TODO: CHANGE TO ARRAY?
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||			
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT) ||
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_PROMOTION)		// TODO: CHANGE TO ARRAY? SPLIT TO FUNCTIONS 
 		{
 			board.updateBoard(srcPos, destPos);
 			isWhite = !isWhite;

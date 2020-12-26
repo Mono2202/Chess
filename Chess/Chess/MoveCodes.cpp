@@ -28,5 +28,7 @@ string MoveCodes::ToString(int code)
 		case MoveCodes::VALID_CHECKMATE:				return "08"; break;
 		case MoveCodes::VALID_CASTLE:					return "09"; break;
 		case MoveCodes::VALID_EN_PASSANT:				return "10"; break;
+		case MoveCodes::VALID_PROMOTION:				return "11"; break;
+		default:										return "??"; break;
 	}
 }
