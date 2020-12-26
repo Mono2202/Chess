@@ -36,6 +36,9 @@ ChessBoard::ChessBoard(const string& startingBoard)
 			}
 		}
 	}
+
+	// Initializing the en-passant Pawn:
+	this->_enPassantPawn = NULL;
 }
 
 
@@ -122,7 +125,7 @@ returnCode - according to the check results
 string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
 {
 	// Inits:
-	string returnCode = "0";
+	string returnCode = "00";
 
 	// Condition: move index out of bounds (Move Code: 5)
 	if (srcPos.isOutOfBounds() || destPos.isOutOfBounds())
@@ -152,19 +155,29 @@ string ChessBoard::moveCheck(const BoardPosition& srcPos, const BoardPosition& d
 
 	// Condition: invalid specific Chess Piece move (Move Code: 6)
 	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::ERROR_INVALID_MOVE))
-
+	{
 		// Condition: Castling was taking place (Move Code: 9)
 		if (isCastle(srcPos, destPos, isWhite))
 			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE);
 
-	// Condition: valid move (Move Code: 0)
-	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE))
-	
+		// Condition: En-Passant was taking place (Move Code: 10)
+		else if (isEnPassant(srcPos, destPos, isWhite))
+			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT);
+	}
+
+	// Condition: valid move (Move Code: 0 / 9 / 10)
+	if (returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE) ||
+		returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||
+		returnCode == MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT))
+	{
 		// Condition: move made check on enemy King (Move Code: 1)
 		if (isChecked(srcPos, destPos, !isWhite))
 			returnCode = MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK);
+		
+		// Sets the current En-Passant Pawn:
+		setEnPassant(srcPos, isWhite);
+	}
 	
-
 	return returnCode;
 }
 
@@ -406,6 +419,79 @@ bool ChessBoard::isCastle(const BoardPosition& srcPos, const BoardPosition& dest
 	return true;
 }
 
+/*
+Checks wheter En-Passant is possible
+
+Input:
+srcPos - the source position
+destPos - the destination position
+isWhite - the current player
+
+Output:
+true - En-Passant is possible
+false - otherwise
+*/
+bool ChessBoard::isEnPassant(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite)
+{
+	// Inits:
+	int direction = (isWhite) ? MOVE_DIFFERENCE : -MOVE_DIFFERENCE;
+
+	// Condition: En-Passant Pawn exists and attacking Chess Piece is a Pawn
+	if (this->_board[destPos.getRow() + direction][destPos.getColumn()] == this->_enPassantPawn &&
+		toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == 'P')
+		
+		// Condition: valid diagonal Pawn attack, En-Passant is possible
+		if ((destPos.getRow() - srcPos.getRow()) * direction * -PAWN_DIFFERENCE == DEFAULT_PAWN_MOVE &&
+			abs(destPos.getColumn() - srcPos.getColumn()) == 1)
+			return true;
+
+	return false;
+}
+
+/*
+Sets the En-Passant Pawn
+
+Input:
+srcPos - the source position
+isWhite - the current player
+
+Output:
+None
+*/
+void ChessBoard::setEnPassant(const BoardPosition& srcPos, bool isWhite)
+{
+	// Inits:
+	Pawn* currentPawn;
+
+	// Condition: current En-Passant Pawn exists
+	if (this->_enPassantPawn != NULL)
+	{
+		// Condition: En-Passant is not longer possible
+		if (isupper(this->_enPassantPawn->getPieceType()) == isWhite)
+		{
+			this->_enPassantPawn->setIsEnPassant(false);
+			this->_enPassantPawn = NULL;
+		}
+	}
+
+	// Condition: new candidate to En-Passant Pawn
+	if (toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == 'P')
+	{
+		// Casting ChessPiece* as Pawn:
+		currentPawn = dynamic_cast<Pawn*>(this->_board[srcPos.getRow()][srcPos.getColumn()]);
+
+		// Condition: candidate Pawn can En-Passant
+		if (currentPawn->getIsEnPassant())
+		{
+			// Condition: current En-Passant Pawn exists 
+			if (this->_enPassantPawn != NULL)
+				this->_enPassantPawn->setIsEnPassant(false);
+
+			// Setting the new current En-Passant Pawn:
+			this->_enPassantPawn = currentPawn;
+		}
+	}
+}
 
 // isChecked Helper Methods:
 

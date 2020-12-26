@@ -56,6 +56,7 @@ public:
 private:
 	// Fields:
 	ChessPiece* _board[BOARD_SIZE][BOARD_SIZE];
+	Pawn* _enPassantPawn;
 
 	// Helper Methods:
 	void addPiece(const char pieceType, const BoardPosition& position);
@@ -63,6 +64,8 @@ private:
 	bool isThreatened(const BoardPosition& srcPos, const string& possibleEnemyPieces, const bool isWhite);
 	bool isChecked(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
 	bool isCastle(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
+	bool isEnPassant(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
+	void setEnPassant(const BoardPosition& srcPos, bool isWhite);
 
 	// isChecked Helper Methods:
 	bool rowCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
