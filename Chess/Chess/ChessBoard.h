@@ -71,7 +71,7 @@ private:
 	void setEnPassant(const BoardPosition& srcPos, const bool isWhite);
 	bool isPromotion(const BoardPosition& srcPos, const BoardPosition& destPos, const bool isWhite);
 
-	// isChecked Helper Methods:
+	// isThreatened Helper Methods:
 	bool rowCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
 	bool columnCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
 	bool mainDiagonalCheck(const BoardPosition& kingPos, const string& possibleEnemyPieces, const bool isWhite, const int difference);
