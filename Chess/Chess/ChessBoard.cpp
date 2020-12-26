@@ -529,7 +529,7 @@ bool ChessBoard::isPromotion(const BoardPosition& srcPos, const BoardPosition& d
 }
 
 
-// isChecked Helper Methods:
+// isThreatened Helper Methods:
 
 /*
 Checks for check in the King's row
