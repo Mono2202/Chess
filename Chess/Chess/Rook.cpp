@@ -54,7 +54,7 @@ bool Rook::move(const BoardPosition& srcPos, const BoardPosition& destPos, Chess
 
 	// Condition: horizontal move
 	else
-		diffRow = (srcPos.getRow() < destPos.getRow()) ? ROOK_DIFFERENCE : -ROOK_DIFFERENCE; // TODO: #define
+		diffRow = (srcPos.getRow() < destPos.getRow()) ? ROOK_DIFFERENCE : -ROOK_DIFFERENCE;
 
 	// Checking for collisions:
 	for (row = srcPos.getRow() + diffRow, column = srcPos.getColumn() + diffCol;

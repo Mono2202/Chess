@@ -31,5 +31,3 @@ private:
 	int _row;
 	int _column;
 };
-
-// TODO: CHANGE FUNCTIONS TO HAVE refrences AND consts
