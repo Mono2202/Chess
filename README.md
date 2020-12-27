@@ -1,3 +1,6 @@
 # Chess
 
-test
+Mono's & Yoni's Chess Game!
+Includes: ♔ ♕ ♖ ♗ ♘ ♙
+
+HF :)
