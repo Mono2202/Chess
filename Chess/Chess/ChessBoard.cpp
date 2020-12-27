@@ -199,10 +199,13 @@ void ChessBoard::updateBoard(const BoardPosition& srcPos, const BoardPosition& d
 {
 	// Setting the En-Passant Pawn:
 	if (this->_board[destPos.getRow()][destPos.getColumn()] == this->_enPassantPawn)
+	{
+		delete this->_board[destPos.getRow()][destPos.getColumn()];
 		this->_enPassantPawn = NULL;
+	}
 
 	// Condition: deleting the chess piece
-	if (this->_board[destPos.getRow()][destPos.getColumn()] != NULL)
+	else if (this->_board[destPos.getRow()][destPos.getColumn()] != NULL)
 		delete this->_board[destPos.getRow()][destPos.getColumn()];
 
 	// Switching both positions:
