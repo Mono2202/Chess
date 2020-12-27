@@ -445,7 +445,8 @@ bool ChessBoard::isEnPassant(const BoardPosition& srcPos, const BoardPosition& d
 	int direction = (isWhite) ? MOVE_DIFFERENCE : -MOVE_DIFFERENCE;
 
 	// Condition: En-Passant Pawn exists and attacking Chess Piece is a Pawn
-	if (this->_board[destPos.getRow() + direction][destPos.getColumn()] == this->_enPassantPawn &&
+	if (this->_board[destPos.getRow() + direction][destPos.getColumn()] != NULL &&
+		this->_board[destPos.getRow() + direction][destPos.getColumn()] == this->_enPassantPawn &&
 		toupper(this->_board[srcPos.getRow()][srcPos.getColumn()]->getPieceType()) == WHITE_PIECES[PAWN_INDEX])
 		
 		// Condition: valid diagonal Pawn attack, En-Passant is possible
