@@ -65,7 +65,7 @@ void main()
 	// Sending the starting board message to the frontend:
 	char msgToGraphics[MESSAGE_SIZE];
 	strcpy_s(msgToGraphics, startingBoard);
-	p.sendMessageToGraphics(msgToGraphics); 
+	p.sendMessageToGraphics(msgToGraphics);
 
 	// Getting the message from the frontend:
 	string msgFromGraphics = p.getMessageFromGraphics();
@@ -95,7 +95,7 @@ void main()
 		if (moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_MOVE) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECK) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CHECKMATE) ||
-			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||			
+			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_CASTLE) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_EN_PASSANT) ||
 			moveCode == MoveCodes::ToString(MoveCodes::CODES::VALID_PROMOTION))
 		{
